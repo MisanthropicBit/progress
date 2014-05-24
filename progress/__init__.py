@@ -13,7 +13,7 @@ ProgressText  Flexible progress text  'Searching...'
 
 __author__ = 'Alexander Bock'
 __version__ = '1.1.0'
-__date__ = '2014-05-22'  # YYYY-MM-DD
+__date__ = '2014-05-24'  # YYYY-MM-DD
 
 import sys
 import platform
