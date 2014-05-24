@@ -1,0 +1,9 @@
+*.py[cod]
+module_layout.txt
+compat.py
+__pycache__
+backup
+color
+progress/ProgressBar_nix.py
+lol.py
+TODO

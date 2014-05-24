@@ -1,0 +1,3 @@
+pep257
+flake8
+pytest
