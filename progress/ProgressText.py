@@ -82,7 +82,7 @@ class ProgressText(object):
         else:
             self._cycle = itertools.cycle(self.progress[:end]
                                           for end in
-                                          irange(0, len(self.progress)+1))
+                                          irange(0, len(self.progress) + 1))
 
         self.update()
 

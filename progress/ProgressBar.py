@@ -59,7 +59,7 @@ class ProgressBar(object):
         self.has_eta = False
         self._progchar = fill * width
         self._fmtdict = dict(zip(ProgressBar._VALID_FMTS,
-                                [self._progchar, 0.0, 0, max, 0, 0, 0]))
+                                 [self._progchar, 0.0, 0, max, 0, 0, 0]))
 
         for _, name, _, _ in string.Formatter().parse(fmt):
             if name in ProgressBar._VALID_ETA:
@@ -121,34 +121,34 @@ class ProgressBar(object):
                 if type(res) not in (tuple, list):
                     raise ValueError("Expected a tuple of three elements "
                                      "from ETA object")
-                
+
                 if len(res) != 3:
                     raise ValueError("Unexpected type '{0}' returned from ETA "
                                      "object".format(type(res).__name__))
 
                 self._fmtdict.update(zip(ProgressBar._VALID_ETA, res))
 
-        v = float(self._value - self.min)/float(self.max - self.min)
+        v = float(self._value - self.min) / float(self.max - self.min)
         self._percentage = v
 
         # Set progress string
         if not self.done():
             lh = len(self.head)
 
-            self._progchar = self.char * ((int(v*self.width)-lh) /
+            self._progchar = self.char * ((int(v * self.width) - lh) /
                                           len(self.char))
             self._progchar += self.head + (self.fill * (self.width -
                                            (len(self._progchar) + lh)))
         else:
-            self._progchar = self.char * (self.width-1) +\
+            self._progchar = self.char * (self.width - 1) +\
                 (self.char if not self.head else self.head)
 
         self._fmtdict.update(zip([ProgressBar._PROGRESS,
                                  ProgressBar._PERCENTAGE,
                                  ProgressBar._NOMINATOR],
-                                [self._progchar,
-                                 self._percentage*100.0,
-                                 self._value]))
+                                 [self._progchar,
+                                  self._percentage * 100.0,
+                                  self._value]))
 
     def clear(self):
         """Remove the progress bar from the output stream."""
@@ -180,7 +180,7 @@ class ProgressBar(object):
     @value.setter
     def value(self, value):
         if self.value < value:
-            self.update(value-self.value)
+            self.update(value - self.value)
         elif self.value > value:
             self._value = value
             self.update(0)

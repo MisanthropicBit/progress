@@ -49,4 +49,4 @@ if __name__ == '__main__':
     progress_thread.join()
 
     print("Found {} entries in fictive database..."
-        .format(random.randint(0, 6)))
+          .format(random.randint(0, 6)))

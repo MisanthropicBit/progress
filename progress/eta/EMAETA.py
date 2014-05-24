@@ -35,7 +35,7 @@ class EMAETA(BaseETA):
             dt = self.history[1][0] - self.history[0][0]
             ds = self.history[1][1] - self.history[0][1]
             speed = float(ds) / float(dt)
-            self.ema = self.decay * speed + (1.0-self.decay) * self.ema
+            self.ema = self.decay * speed + (1.0 - self.decay) * self.ema
             self.history.pop(0)
         elif lh == 1:
             self.ema = self.history[0][1]

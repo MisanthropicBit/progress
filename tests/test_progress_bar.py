@@ -10,26 +10,27 @@ import progress
 import progress.eta
 
 
-fail_kwargs = [# Should fail because of missing format
-               dict(fmt=''),
-               # Should fail because width is zero
-               dict(fmt=' ', width=0),
-               # Fails because of negative width
-               dict(fmt=' ', width=-1),
-               # Should fail because len(char) is > 1
-               dict(fmt=' ', char='!='),
-               # Should fail because 'char' arg is too long
-               dict(fmt=' ', char='x'*21),
-               # Should fail because 'head' arg is too long
-               dict(fmt=' ', head='x'*21),
-               # Should fail because 'char'+'head' args are too long
-               dict(fmt=' ', char='x'*10, head='x'*11),
-               # Should fail because '{progress}' appears twice
-               dict(fmt='{progress} {progress}'),
-               # Should fail because 'etaobj' does not derive from
-               # progress.eta.BaseETA
-               dict(fmt=' ', etaobj=type('SomeType', (), dict())),
-               ]
+fail_kwargs = [
+    # Should fail because of missing format
+    dict(fmt=''),
+    # Should fail because width is zero
+    dict(fmt=' ', width=0),
+    # Fails because of negative width
+    dict(fmt=' ', width=-1),
+    # Should fail because len(char) is > 1
+    dict(fmt=' ', char='!='),
+    # Should fail because 'char' arg is too long
+    dict(fmt=' ', char='x' * 21),
+    # Should fail because 'head' arg is too long
+    dict(fmt=' ', head='x' * 21),
+    # Should fail because 'char'+'head' args are too long
+    dict(fmt=' ', char='x' * 10, head='x' * 11),
+    # Should fail because '{progress}' appears twice
+    dict(fmt='{progress} {progress}'),
+    # Should fail because 'etaobj' does not derive from
+    # progress.eta.BaseETA
+    dict(fmt=' ', etaobj=type('SomeType', (), dict())),
+]
 
 
 class FailETA1(progress.eta.BaseETA):

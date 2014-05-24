@@ -30,7 +30,7 @@ class BaseETA(object):
         raise NotImplementedError("Must be implemented in subclass")
 
     def format_eta(self, eta):
-        """Convert and return a time elapse in seconds to hours, minutes and seconds."""
+        """Convert a time elapse in seconds to hours, minutes and seconds."""
         mins, secs = divmod(eta, 60)
         hrs, mins = divmod(mins, 60)
         return list(map(int, (hrs, mins, secs)))

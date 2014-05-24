@@ -8,6 +8,7 @@ import random
 import threading
 import progress
 
+
 def update_progtxt(ptxt):
     ptxt.clear()
     ptxt.show()
@@ -19,5 +20,5 @@ if __name__ == '__main__':
 
     while True:
         time.sleep(random.randint(3, 8))
-    
+
     thread.join()
