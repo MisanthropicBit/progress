@@ -156,3 +156,4 @@ Version log
 - Updated examples/ and added ``threaded_progress_bar.py`` and ``threaded_progress_text.py``
 - Updated test cases
 - Updated error checking in ``ProgressText`` constructor
+- Added new properties, which now all changes the ProgressBar's state accordingly

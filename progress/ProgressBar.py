@@ -134,7 +134,6 @@ class ProgressBar(object):
                                   self._percentage * 100.0,
                                   self._value]))
 
-
     def update(self, value):
         """Update the progress bar with value."""
         # Update and format ETA if needed
