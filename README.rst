@@ -1,4 +1,4 @@
-**Python progress module v1.1.0**
+**progress v1.1.0**
 =================================
 
 .. image:: https://travis-ci.org/MisanthropicBit/progress.svg?branch=master

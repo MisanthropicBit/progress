@@ -86,10 +86,10 @@ class ProgressBar(object):
 
             self.etaobj = etaobj
 
-        self.width = width
+        self._width = width
         self._char = char
         self._head = head
-        self.fill = fill
+        self._fill = fill
         self._min = min
         self._max = max
         self._fmt = fmt
@@ -101,18 +101,43 @@ class ProgressBar(object):
             else time.time
         self._lastlen = 0
 
-    def update(self, value):
-        """Update the progress bar with value."""
+    def _update(self, value):
+        """Internal method for updating the ProgressBar's state."""
         if value < 0:
             raise ValueError("Cannot update progress bar with"
                              "a negative value")
 
-        self._value = self._value + value
+        if value != 0:
+            self._value = self._value + value
+            # Clamp to [mn, mx]
+            self._value = max(self.min, min(self._value, self.max))
 
-        # Clamp to [mn, mx]
-        self._value = max(self.min, min(self._value, self.max))
+        v = float(self._value - self.min) / float(self.max - self.min)
+        self._percentage = v
 
-        # Format ETA if needed
+        # Set progress string
+        if not self.done():
+            lh = len(self._head)
+
+            self._progchar = self._char * ((int(v * self._width) - lh) //
+                                           len(self._char))
+            self._progchar += self._head + (self._fill * (self._width -
+                                            (len(self._progchar) + lh)))
+        else:
+            self._progchar = self._char * (self._width - 1) +\
+                (self._char if not self._head else self._head)
+
+        self._fmtdict.update(zip([ProgressBar._PROGRESS,
+                                 ProgressBar._PERCENTAGE,
+                                 ProgressBar._NOMINATOR],
+                                 [self._progchar,
+                                  self._percentage * 100.0,
+                                  self._value]))
+
+
+    def update(self, value):
+        """Update the progress bar with value."""
+        # Update and format ETA if needed
         if self.has_eta:
             self.etaobj.update(self._timer(), self._value, self.max)
             res = self.etaobj.get()
@@ -128,27 +153,7 @@ class ProgressBar(object):
 
                 self._fmtdict.update(zip(ProgressBar._VALID_ETA, res))
 
-        v = float(self._value - self.min) / float(self.max - self.min)
-        self._percentage = v
-
-        # Set progress string
-        if not self.done():
-            lh = len(self._head)
-
-            self._progchar = self._char * ((int(v * self.width) - lh) /
-                                           len(self._char))
-            self._progchar += self._head + (self.fill * (self.width -
-                                            (len(self._progchar) + lh)))
-        else:
-            self._progchar = self._char * (self.width - 1) +\
-                (self._char if not self._head else self._head)
-
-        self._fmtdict.update(zip([ProgressBar._PROGRESS,
-                                 ProgressBar._PERCENTAGE,
-                                 ProgressBar._NOMINATOR],
-                                 [self._progchar,
-                                  self._percentage * 100.0,
-                                  self._value]))
+        self._update(value)
 
     def clear(self):
         """Remove the progress bar from the output stream."""
@@ -174,6 +179,42 @@ class ProgressBar(object):
         self._lastlen = len(tmp)
 
     @property
+    def width(self):
+        return self._width
+
+    @width.setter
+    def width(self, width):
+        self._width = width
+        self._update(0)
+
+    @property
+    def char(self):
+        return self._char
+
+    @char.setter
+    def char(self, char):
+        self._char = char
+        self._update(0)
+
+    @property
+    def head(self):
+        return self._head
+
+    @head.setter
+    def head(self, head):
+        self._head = head
+        self._update(0)
+
+    @property
+    def fill(self):
+        return self._fill
+
+    @fill.setter
+    def fill(self, fill):
+        self._fill = fill
+        self._update(0)
+
+    @property
     def value(self):
         return self._value
 
@@ -189,21 +230,28 @@ class ProgressBar(object):
     def percent(self):
         return self._percentage
 
-    @property
-    def char(self):
-        return self._char
-
-    @property
-    def head(self):
-        return self._head if self._head else self.char
+    @percent.setter
+    def percent(self, percent):
+        self._percentage = percent
+        self._update(0)
 
     @property
     def min(self):
         return self._min
 
+    @min.setter
+    def min(self, min):
+        self._min = min
+        self._update(0)
+
     @property
     def max(self):
         return self._max
+
+    @max.setter
+    def max(self, max):
+        self._max = max
+        self._update(0)
 
     def __str__(self):
         """Return the string representation as used by show()."""
