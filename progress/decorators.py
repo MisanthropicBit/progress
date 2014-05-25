@@ -5,7 +5,6 @@
 __date__ = '2014-05-25'  # YYYY-MM-DD
 
 import sys
-import types
 import functools
 
 
