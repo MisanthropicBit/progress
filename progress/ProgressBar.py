@@ -179,9 +179,9 @@ class ProgressBar(object):
 
     @value.setter
     def value(self, value):
-        if self.value < value:
-            self.update(value - self.value)
-        elif self.value > value:
+        if self._value < value:
+            self.update(value - self._value)
+        elif self._value > value:
             self._value = value
             self.update(0)
 
