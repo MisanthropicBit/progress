@@ -5,4 +5,5 @@ backup
 color
 progress/ProgressBar_nix.py
 lol.py
+compat.py
 TODO

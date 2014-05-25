@@ -5,7 +5,7 @@ to allow user-defined ETA classes
 
 """
 
-__date__ = '2014-02-18'  # YYYY-MM-DD
+__date__ = '2014-05-24'  # YYYY-MM-DD
 
 from progress.eta.BaseETA import BaseETA
 from progress.eta.SimpleETA import SimpleETA

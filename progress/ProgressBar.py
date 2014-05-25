@@ -97,7 +97,7 @@ class ProgressBar(object):
         self._value = min
         self._percentage = 0.0
         self._bdels = 0
-        self._timer = time.clock if progress._SYSTEM_OS.startswith('win')\
+        self._timer = time.clock if sys.platform.startswith('win')\
             else time.time
         self._lastlen = 0
 
@@ -133,15 +133,15 @@ class ProgressBar(object):
 
         # Set progress string
         if not self.done():
-            lh = len(self.head)
+            lh = len(self._head)
 
-            self._progchar = self.char * ((int(v * self.width) - lh) /
-                                          len(self.char))
-            self._progchar += self.head + (self.fill * (self.width -
+            self._progchar = self._char * ((int(v * self.width) - lh) /
+                                          len(self._char))
+            self._progchar += self._head + (self.fill * (self.width -
                                            (len(self._progchar) + lh)))
         else:
-            self._progchar = self.char * (self.width - 1) +\
-                (self.char if not self.head else self.head)
+            self._progchar = self._char * (self.width - 1) +\
+                (self._char if not self._head else self._head)
 
         self._fmtdict.update(zip([ProgressBar._PROGRESS,
                                  ProgressBar._PERCENTAGE,
@@ -195,7 +195,7 @@ class ProgressBar(object):
 
     @property
     def head(self):
-        return self._head
+        return self._head if self._head else self.char
 
     @property
     def min(self):
