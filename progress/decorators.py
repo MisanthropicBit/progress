@@ -5,11 +5,11 @@
 __date__ = '2014-05-25'  # YYYY-MM-DD
 
 import sys
+import types
 import functools
 
 
 if sys.version_info[0] < 3:
-    import types
     ClassType = types.ClassType
 
     def iteritems(d):
