@@ -62,59 +62,58 @@ class FailETA3(object):
     pass
 
 
-class TestProgressBar(object):
-    def test_progressbar_init(self):
-        # Test keyword arguments that should fail
-        for kwargs in fail_kwargs:
-            with pytest.raises(ValueError):
-                progress.ProgressBar(**kwargs)
-
-        testbar = progress.ProgressBar(' ')
-        assert testbar.min == 0
-        assert testbar.max == 100
-        assert testbar.char == '='
-        assert testbar.head == '>'
-        assert testbar.width == 20
-
-        # Attempt to update with a negative value
+def test_progressbar():
+    # Test keyword arguments that should fail
+    for kwargs in fail_kwargs:
         with pytest.raises(ValueError):
-            testbar.update(-10)
+            progress.ProgressBar(**kwargs)
 
+    testbar = progress.ProgressBar(' ')
+    assert testbar.min == 0
+    assert testbar.max == 100
+    assert testbar.char == '='
+    assert testbar.head == '>'
+    assert testbar.width == 20
+
+    # Attempt to update with a negative value
+    with pytest.raises(ValueError):
+        testbar.update(-10)
+
+    with pytest.raises(ValueError):
+        testbar += -20
+
+    # Test failing ETA objects
+    for etaobj in (FailETA1(), FailETA2(), FailETA3()):
         with pytest.raises(ValueError):
-            testbar += -20
+            progress.ProgressBar(fmt=' ', etaobj=etaobj)
 
-        # Test failing ETA objects
-        for etaobj in (FailETA1(), FailETA2(), FailETA3()):
-            with pytest.raises(ValueError):
-                progress.ProgressBar(fmt=' ', etaobj=etaobj)
+    # Test updates and states
+    testbar.value = 50
+    assert testbar.value == 50
+    assert testbar.percent == 0.5
 
-        # Test updates and states
-        testbar.value = 50
-        assert testbar.value == 50
-        assert testbar.percent == 0.5
+    testbar.update(25)
+    assert testbar.value == 75
+    assert testbar.percent == 0.75
 
-        testbar.update(25)
-        assert testbar.value == 75
-        assert testbar.percent == 0.75
+    testbar.value = 10
+    assert testbar.value == 10
+    assert testbar.percent == 0.10
 
-        testbar.value = 10
-        assert testbar.value == 10
-        assert testbar.percent == 0.10
+    testbar += 50
+    assert testbar.value == 60
+    assert testbar.percent == 0.60
 
-        testbar += 50
-        assert testbar.value == 60
-        assert testbar.percent == 0.60
+    testbar.value = -10
+    assert testbar.value == 0
+    assert testbar.percent == 0.0
 
-        testbar.value = -10
-        assert testbar.value == 0
-        assert testbar.percent == 0.0
+    testbar.value = 1000
+    assert testbar.value == 100
+    assert testbar.percent == 1.0
+    assert testbar.done()
 
-        testbar.value = 1000
-        assert testbar.value == 100
-        assert testbar.percent == 1.0
-        assert testbar.done()
-
-        testbar.reset()
-        assert testbar.value == 0
-        assert testbar.percent == 0.0
-        assert not testbar.done()
+    testbar.reset()
+    assert testbar.value == 0
+    assert testbar.percent == 0.0
+    assert not testbar.done()
