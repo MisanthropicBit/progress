@@ -1,1 +1,1 @@
-include README.rst CHANGES.rst ./tests ./examples
+include README.rst CHANGES.rst LICENSE ./tests ./examples

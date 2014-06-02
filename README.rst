@@ -4,6 +4,9 @@
 .. image:: https://travis-ci.org/MisanthropicBit/progress.svg?branch=master
     :target: https://travis-ci.org/MisanthropicBit/progress
 
+.. image:: https://pypip.in/license/progress2/badge.png
+    :target: https://pypi.python.org/pypi/progress2/
+
 Allows for easy creation of progress-bars and text.
 
 ``progress`` has been tested with Python 2.6, 2.7, 3.2 and 3.3, and as of now requires at least Python 2.6

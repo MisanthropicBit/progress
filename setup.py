@@ -12,7 +12,7 @@ def get_version(filename):
 
 
 distutils.core.setup(
-    name='progress',
+    name='progress2',
     version=get_version('./progress/__init__.py'),
     author='Alexander Bock',
     author_email='alexander.asp.bock@gmail.com',
