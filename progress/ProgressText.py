@@ -84,8 +84,9 @@ class ProgressText(object):
         else:
             self._cycle = itertools.cycle(self._progress[:end]
                                           for end in
-                                          irange(0 if self.include_empty else 1
-                                                 , len(self._progress) + 1))
+                                          irange(0 if self.include_empty
+                                                 else 1,
+                                                 len(self._progress) + 1))
 
         self.update()
 
