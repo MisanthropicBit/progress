@@ -1,5 +1,5 @@
-**progress v1.1.0**
-=================================
+**progress v1.2.0**
+===================
 
 .. image:: https://travis-ci.org/MisanthropicBit/progress.svg?branch=master
     :target: https://travis-ci.org/MisanthropicBit/progress
@@ -30,8 +30,6 @@ Usage:
 
 Creating a ``ProgressBar``:
 
-.. code::
-
     >>> import progress
     >>> bar = progress.ProgressBar("[{progress}] {percentage:.2f}% ({minutes}:{seconds})", width=30)
     >>> bar.show()
@@ -41,9 +39,13 @@ Creating a ``ProgressBar``:
     [======>                       ] 26.00% (0:0)>>>
     >>>
 
-Creating a ``ProgressText``:
+Alternatively, you can use the ``autoupdate`` method:
 
-.. code::
+    >>> bar.autoupdate(42)
+    [===================>          ] 68.00% (0:45)>>>
+    >>>
+
+Creating a ``ProgressText``:
 
     >>> text = progress.ProgressText("Searching: {progress}", "|/-\\", autoreset=True)
     >>> text.show()
@@ -55,7 +57,20 @@ Creating a ``ProgressText``:
     >>> text.update(); text.show()
     \>>>
 
-Refer to the ``examples/`` directory for some example code.
+You can supply custom args and kwargs to ``show`` and ``autoupdate``:
+
+    >>> bar = progress.ProgressBar("[{progress}] {key} {},{},{}")
+    >>> d = dict(key=33)
+    >>> l = range(3)
+    >>> bar.update(50)
+    >>> bar.show(*l, **d)
+    [=========>          ] 33 0,1,2>>>
+    >>> bar.autoupdate(25, *l, **d)
+    [==============>     ] 33 0,1,2>>>
+    >>>
+
+Refer to the ``examples/`` directory for more examples. There are also examples
+of how to use ``progress`` with the ``threading`` module.
 
 Implementation Notes:
 ---------------------

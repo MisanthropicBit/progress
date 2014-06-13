@@ -2,10 +2,11 @@
 
 """ProgressBar class."""
 
-__date__ = '2014-05-17'  # YYYY-MM-DD
+__date__ = '2014-06-12'  # YYYY-MM-DD
 
 import sys
 import time
+import copy
 import string
 import progress
 import progress.eta
@@ -170,12 +171,37 @@ class ProgressBar(object):
         """Return True if the progress bar has completed."""
         return self._value == self.max
 
-    def show(self):
-        """Print the progress bar."""
+    def show(self, *args, **kwargs):
+        """Print the progress bar.
+
+        args and kwargs can contain userdata
+
+        """
+        tempdict = dict(**self._fmtdict)
+
+        if kwargs:
+            if any(kw in self._fmtdict for kw in kwargs):
+                raise ValueError("kwargs cannot override internal format keys")
+
+            tempdict.update(kwargs)
+
         self.clear()
-        tmp = self._fmt.format(**self._fmtdict)
+        tmp = self._fmt.format(*args, **tempdict)
         self.target.write(tmp)
         self._lastlen = len(tmp)
+
+    def autoupdate(self, value, *args, **kwargs):
+        """Clear the progress bar, update it with value and show it.
+
+        Essentially, a short-hand way of doing:
+            bar.clear()
+            bar.update(value)
+            bar.show()
+
+        """
+        self.clear()
+        self.update(value)
+        self.show(*args, **kwargs)
 
     @property
     def width(self):
@@ -260,7 +286,7 @@ class ProgressBar(object):
 
     def __repr__(self):
         """Return the same string representation as __str()__."""
-        return self.__str__()
+        return "<{} at 0x{}>".format(self.__class__.__name__, id(self))
 
     def __iadd__(self, value):
         """Update the progress bar with value."""

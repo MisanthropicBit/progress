@@ -2,7 +2,7 @@
 
 """ProgressText class."""
 
-__date__ = '2014-05-22'  # YYYY-MM-DD
+__date__ = '2014-06-13'  # YYYY-MM-DD
 
 import sys
 import string
@@ -32,12 +32,14 @@ class ProgressText(object):
 
     _VALID_FMT = 'progress'
 
-    def __init__(self, fmt, progress, autoreset=False, target=sys.stdout):
+    def __init__(self, fmt, progress, autoreset=False, include_empty=False,
+                 target=sys.stdout):
         """Initialize with static text.
 
         E.g. 'Searching' and a list of postfixes. If autoreset
         is set to True, clears each postfix on each update, otherwise
-        they're appended.
+        they're appended. If include_empty is True and autoreset is False, then
+        include the emtpy string when progressing.
 
         """
         if not fmt:
@@ -54,8 +56,9 @@ class ProgressText(object):
                                      .format(name))
 
         self.fmt = fmt
-        self.progress = progress
-        self.autoreset = autoreset
+        self._progress = progress
+        self._autoreset = autoreset
+        self.include_empty = include_empty
         self.target = target
         self._fmtdict = {}
         self._txt = fmt
@@ -65,7 +68,6 @@ class ProgressText(object):
     def update(self):
         """Update the progress text."""
         self._fmtdict[ProgressText._VALID_FMT] = next(self._cycle)
-        self._txt = self.fmt.format(**self._fmtdict)
 
     def clear(self):
         """Remove the progress text from the output stream."""
@@ -78,17 +80,85 @@ class ProgressText(object):
     def reset(self):
         """Reset the progress text."""
         if self.autoreset:
-            self._cycle = itertools.cycle(self.progress)
+            self._cycle = itertools.cycle(self._progress)
         else:
-            self._cycle = itertools.cycle(self.progress[:end]
+            self._cycle = itertools.cycle(self._progress[:end]
                                           for end in
-                                          irange(0, len(self.progress) + 1))
+                                          irange(0 if self.include_empty else 1
+                                                 , len(self._progress) + 1))
 
         self.update()
 
-    def show(self):
+    def show(self, *args, **kwargs):
         """Write the progress text to the console."""
+        if args or kwargs:
+            tempdict = dict(**self._fmtdict)
+
+            if kwargs:
+                if any(kw in self._fmtdict for kw in kwargs):
+                    raise ValueError("kwargs cannot override internal "
+                                     "format keys")
+                tempdict.update(kwargs)
+
+            self._txt = self.fmt.format(*args, **tempdict)
+        else:
+            self._txt = self.fmt.format(**self._fmtdict)
+
         self.clear()
         self.target.write(self._txt)
         self.target.flush()
         self._lastlen = len(self._txt)
+
+    def autoupdate(self, *args, **kwargs):
+        """Clear, update and show the progress text.
+
+        Essentially, a short-hand way of doing:
+            text.clear()
+            text.update()
+            text.show()
+
+        """
+        self.clear()
+        self.show(*args, **kwargs)
+        self.update()
+
+    @property
+    def value(self):
+        """Return the current progress char(s)."""
+        return self._fmtdict[ProgressText._VALID_FMT]
+
+    @property
+    def autoreset(self):
+        """Set the autoreset flag.
+
+        The progress text's internal state is reset if this is
+        changed.
+
+        """
+        return self._autoreset
+
+    @autoreset.setter
+    def autoreset(self, value):
+        self._autoreset = value
+        self.reset()
+
+    @property
+    def progress(self):
+        return self._progress
+
+    @progress.setter
+    def progress(self, value):
+        self._progress = value
+        self.reset()
+
+    def __str__(self):
+        """Return the string representation as used by show()."""
+        return self.fmt.format(**self._fmtdict)
+
+    def __repr__(self):
+        """Return the same string representation as __str()__."""
+        return "<{} at 0x{}>".format(self.__class__.__name__, id(self))
+
+    def __len__(self):
+        """Return the current length of the progress in characters."""
+        return len(self.__str__())

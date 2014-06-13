@@ -3,7 +3,7 @@
 
 """py.test file for the progress.ProgressBar class."""
 
-__date__ = '2014-05-22'  # YYYY-MM-DD
+__date__ = '2014-06-13'  # YYYY-MM-DD
 
 import pytest
 import progress
@@ -117,3 +117,17 @@ def test_progressbar():
     assert testbar.value == 0
     assert testbar.percent == 0.0
     assert not testbar.done()
+
+    testbar.autoupdate(22)
+    assert testbar.value == 22
+    assert testbar.percent == 0.22
+    assert not testbar.done()
+
+    l = list(range(3))
+    d = dict(a=1, b=3)
+    testbar.show(*l, **d)
+    testbar.autoupdate(10, *l, **d)
+
+    with pytest.raises(ValueError):
+        d['progress'] = 'I am not allowed :('
+        testbar.autoupdate(5, **d)

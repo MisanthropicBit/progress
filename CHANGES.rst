@@ -157,3 +157,13 @@ Version log
 - Updated test cases
 - Updated error checking in ``ProgressText`` constructor
 - Added new properties, which now all changes the ProgressBar's state accordingly
+
+1.2.0
+-----
+- Fixed README.rst so it works on PyPI
+- Added ``autoupdate`` to the ``ProgressBar`` and ``ProgressText`` classes
+- Added some properties to ``ProgressText``
+- Added ``args`` and ``kwargs`` to the ``show`` methods
+- Added ``__str__``, ``__repr__`` and ``__len__`` methods to ``ProgressText``
+- Added include_empty keyword argument to ``ProgressText`` constructor
+- Updated test cases to cover the new features
