@@ -167,3 +167,6 @@ Version log
 - Added ``__str__``, ``__repr__`` and ``__len__`` methods to ``ProgressText``
 - Added include_empty keyword argument to ``ProgressText`` constructor
 - Updated test cases to cover the new features
+- Fixed examples
+- Fixed a bug in ``show`` methods where Python 3.x would not function correctly
+- Minor code clean-up

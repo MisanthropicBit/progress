@@ -1,24 +1,25 @@
 #!/usr/bin/env/python
 # -*- coding: utf-8 -*-
 
-"""Using ProgressText in a separate thread while searching a fake database."""
+"""Simple usage of ProgressText."""
+
+__date__ = '2014-06-16'  # YYYY-MM-DD
 
 import time
-import random
-import threading
 import progress
 
 
-def update_progtxt(ptxt):
-    ptxt.clear()
-    ptxt.show()
+def update_progtxt(progress_text):
+    while True:
+        progress_text.clear()
+        progress_text.show()
 
 if __name__ == '__main__':
-    ptxt = progress.ProgressText('Searching{progress}', '...')
-    thread = threading.Thread(target=update_progtxt)
-    thread.start()
+    text = progress.ProgressText('Searching {progress}', '/-\\|',
+                                 autoreset=True)
 
-    while True:
-        time.sleep(random.randint(3, 8))
+    for i in range(10):
+        text.autoupdate()
+        time.sleep(0.3)
 
-    thread.join()
+    text.clear()

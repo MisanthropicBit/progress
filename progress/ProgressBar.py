@@ -6,7 +6,6 @@ __date__ = '2014-06-12'  # YYYY-MM-DD
 
 import sys
 import time
-import copy
 import string
 import progress
 import progress.eta
@@ -108,10 +107,12 @@ class ProgressBar(object):
             raise ValueError("Cannot update progress bar with"
                              "a negative value")
 
-        if value != 0:
-            self._value = self._value + value
-            # Clamp to [mn, mx]
-            self._value = max(self.min, min(self._value, self.max))
+        if value == 0:
+            return
+
+        self._value = self._value + value
+        # Clamp to [mn, mx]
+        self._value = max(self.min, min(self._value, self.max))
 
         v = float(self._value - self.min) / float(self.max - self.min)
         self._percentage = v
@@ -144,8 +145,8 @@ class ProgressBar(object):
 
             if res is not None:
                 if type(res) not in (tuple, list):
-                    raise ValueError("Expected a tuple of three elements "
-                                     "from ETA object")
+                    raise ValueError("Expected a tuple or list of three "
+                                     "elements from ETA object")
 
                 if len(res) != 3:
                     raise ValueError("Unexpected type '{0}' returned from ETA "
@@ -157,11 +158,7 @@ class ProgressBar(object):
 
     def clear(self):
         """Remove the progress bar from the output stream."""
-        mv_cursor = '\r' * self._lastlen
-
-        self.target.write(mv_cursor)
-        self.target.write(' ' * self._lastlen)
-        self.target.write(mv_cursor)
+        self.target.write('\r' + ' ' * self._lastlen + '\r')
 
     def reset(self):
         """Reset the progress bar."""
@@ -188,6 +185,7 @@ class ProgressBar(object):
         self.clear()
         tmp = self._fmt.format(*args, **tempdict)
         self.target.write(tmp)
+        self.target.flush()  # Needed for Python 3.x
         self._lastlen = len(tmp)
 
     def autoupdate(self, value, *args, **kwargs):

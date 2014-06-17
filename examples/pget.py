@@ -3,7 +3,9 @@
 
 """A silly (and possibly very immature) demonstration of ProgressBar usage."""
 
-__date__ = '2014-05-17'  # YYYY-MM-DD
+from __future__ import print_function
+
+__date__ = '2014-06-16'  # YYYY-MM-DD
 
 import time
 import random
@@ -11,17 +13,18 @@ import progress
 import progress.eta
 
 
-def main():
-    pbar = progress.ProgressBar(fmt='[{progress}] {percentage}%'
+if __name__ == '__main__':
+    pbar = progress.ProgressBar(fmt='[{progress}] {percentage:.2f}% '
                                     '{hours}:{minutes}',
                                 width=40, head='D',
-                                etaobj=progress.eta.SMAETA())
+                                etaobj=progress.eta.EMAETA())
 
     while True:
-        time.sleep(random.randint(0, 2))
-        pbar.update(random.randint(20, 80))
         pbar.show()
+        time.sleep(random.randint(1, 2))
+        pbar.update(random.randint(10, 40))
 
         if pbar.done():
             pbar.show()
+            print()
             break

@@ -107,7 +107,7 @@ class ProgressText(object):
 
         self.clear()
         self.target.write(self._txt)
-        self.target.flush()
+        self.target.flush()  # Needed for Python 3.x
         self._lastlen = len(self._txt)
 
     def autoupdate(self, *args, **kwargs):

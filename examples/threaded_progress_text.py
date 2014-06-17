@@ -5,7 +5,7 @@
 
 from __future__ import print_function
 
-__date__ = '2014-05-22'  # YYYY-MM-DD
+__date__ = '2014-06-16'  # YYYY-MM-DD
 
 import sys
 sys.path.append('..')
@@ -17,26 +17,27 @@ import progress
 
 
 def updater(event, progresstext):
-    """"""
+    """Updater function to be called by threads."""
     while True:
         event.wait(0.5)
 
         if event.is_set():
             break
 
-        progresstext.show()
-        progresstext.update()
+        progresstext.autoupdate()
 
     progresstext.clear()
 
 
 if __name__ == '__main__':
-    text = progress.ProgressText('Searching{progress}', '...')
+    text = progress.ProgressText('Searching{progress}', '...',
+                                 include_empty=True)
 
     # Create an event to signal the progress thread to stop
     stop_event = threading.Event()
 
-    # Create and start the progress thread
+    # Show the progress text, then create and start the progress thread
+    text.show()
     progress_thread = threading.Thread(target=updater, args=(stop_event, text))
     progress_thread.start()
 
@@ -48,5 +49,5 @@ if __name__ == '__main__':
     stop_event.set()
     progress_thread.join()
 
-    print("Found {} entries in fictive database..."
+    print("Found {} entrie(s) in fictive database..."
           .format(random.randint(0, 6)))
