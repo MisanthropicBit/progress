@@ -2,7 +2,7 @@
 
 """ProgressBar class."""
 
-__date__ = '2014-06-12'  # YYYY-MM-DD
+__date__ = '2014-06-17'  # YYYY-MM-DD
 
 import sys
 import time
@@ -107,12 +107,10 @@ class ProgressBar(object):
             raise ValueError("Cannot update progress bar with"
                              "a negative value")
 
-        if value == 0:
-            return
-
-        self._value = self._value + value
-        # Clamp to [mn, mx]
-        self._value = max(self.min, min(self._value, self.max))
+        if value > 0:
+            self._value = self._value + value
+            # Clamp to [mn, mx]
+            self._value = max(self.min, min(self._value, self.max))
 
         v = float(self._value - self.min) / float(self.max - self.min)
         self._percentage = v
