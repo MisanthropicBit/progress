@@ -1,9 +1,11 @@
 *.py[cod]
 module_layout.txt
 __pycache__
-backup
-color
+backup/
+color/
 progress/ProgressBar_nix.py
 lol.py
 compat.py
 TODO
+MANIFEST
+dist/
