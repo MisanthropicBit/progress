@@ -21,3 +21,4 @@ script: py.test .
 branches:
     only:
         - master
+        - prop_exts
