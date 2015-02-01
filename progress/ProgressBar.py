@@ -199,6 +199,25 @@ class ProgressBar(object):
         self.update(value)
         self.show(*args, **kwargs)
 
+    def _check_format(self, fmt):
+        """Check that a given format is valid."""
+        if not fmt:
+            raise ValueError("Expected a non-empty format string")
+
+        fmt_count = dict.fromkeys(ProgressBar._VALID_FMTS, 0)
+        self.has_eta = False
+
+        for _, name, _, _ in string.Formatter().parse(fmt):
+            if name in ProgressBar._VALID_ETA:
+                self._fmtdict[name] = 0
+                self.has_eta = True
+            elif name in ProgressBar._VALID_FMTS:
+                fmt_count[name] += 1
+
+                if fmt_count[name] > 1:
+                    raise ValueError("Format string '{0}' appears more "
+                                     "than once".format(name))
+
     @property
     def width(self):
         return self._width
@@ -275,6 +294,15 @@ class ProgressBar(object):
     def max(self, max):
         self._max = max
         self._update(0)
+
+    @property
+    def format(self):
+        return self._fmt
+
+    @format.setter
+    def format(self, fmt):
+        self._check_format(fmt)
+        self._fmt = fmt
 
     def __str__(self):
         """Return the string representation as used by show()."""
