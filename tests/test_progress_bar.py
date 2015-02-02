@@ -3,7 +3,7 @@
 
 """py.test file for the progress.ProgressBar class."""
 
-__date__ = '2014-06-13'  # YYYY-MM-DD
+__date__ = '2015-02-02'  # YYYY-MM-DD
 
 import pytest
 import progress
@@ -87,7 +87,7 @@ def test_progressbar():
         with pytest.raises(ValueError):
             progress.ProgressBar(fmt=' ', etaobj=etaobj)
 
-    # Test updates and states
+    # Test updates/states through properties
     testbar.value = 50
     assert testbar.value == 50
     assert testbar.percent == 0.5
@@ -123,11 +123,24 @@ def test_progressbar():
     assert testbar.percent == 0.22
     assert not testbar.done()
 
+    assert type(testbar.format) is str
+    testbar.format = "{percentage}%"
+    assert testbar.format == "{percentage}%"
+
+    # Fails due to 'progress' key being used twice
+    with pytest.raises(ValueError):
+        testbar.format = "{progress} {progress}"
+
+    # Fails due to an empty format string
+    with pytest.raises(ValueError):
+        testbar.format = ""
+
     l = list(range(3))
     d = dict(a=1, b=3)
     testbar.show(*l, **d)
     testbar.autoupdate(10, *l, **d)
 
+    # Fails because progress is a reserved key
     with pytest.raises(ValueError):
         d['progress'] = 'I am not allowed :('
         testbar.autoupdate(5, **d)

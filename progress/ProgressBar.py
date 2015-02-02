@@ -2,7 +2,7 @@
 
 """ProgressBar class."""
 
-__date__ = '2014-06-17'  # YYYY-MM-DD
+__date__ = '2015-02-02'  # YYYY-MM-DD
 
 import sys
 import time
