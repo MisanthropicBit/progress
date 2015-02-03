@@ -94,7 +94,3 @@ def test_progresstext():
 
     testtext.update()
     assert testtext.value == ''
-
-
-if __name__ == '__main__':
-    test_progresstext()
