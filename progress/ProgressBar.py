@@ -40,8 +40,8 @@ class ProgressBar(object):
 
         """
         # Do a ton of error checking to ensure a valid format and parameters
-        if not fmt:
-            raise ValueError("Expected a non-empty format string")
+        # if not fmt:
+        #     raise ValueError("Expected a non-empty format string")
 
         if int(width) <= 0:
             raise ValueError("Width must be greater than zero")
@@ -55,22 +55,23 @@ class ProgressBar(object):
             raise ValueError("Character lengths or combined length must be "
                              "less than progress bar width")
 
-        fmt_count = dict.fromkeys(ProgressBar._VALID_FMTS, 0)
-        self.has_eta = False
+        # fmt_count = dict.fromkeys(ProgressBar._VALID_FMTS, 0)
+        # self.has_eta = False
         self._progchar = fill * width
         self._fmtdict = dict(zip(ProgressBar._VALID_FMTS,
                                  [self._progchar, 0.0, 0, max, 0, 0, 0]))
+        self._check_format(fmt)
 
-        for _, name, _, _ in string.Formatter().parse(fmt):
-            if name in ProgressBar._VALID_ETA:
-                self._fmtdict[name] = 0
-                self.has_eta = True
-            elif name in ProgressBar._VALID_FMTS:
-                fmt_count[name] += 1
+        # for _, name, _, _ in string.Formatter().parse(fmt):
+        #     if name in ProgressBar._VALID_ETA:
+        #         self._fmtdict[name] = 0
+        #         self.has_eta = True
+        #     elif name in ProgressBar._VALID_FMTS:
+        #         fmt_count[name] += 1
 
-                if fmt_count[name] > 1:
-                    raise ValueError("Format string '{0}' appears more "
-                                     "than once".format(name))
+        #         if fmt_count[name] > 1:
+        #             raise ValueError("Format string '{0}' appears more "
+        #                              "than once".format(name))
 
         if etaobj is None:
             if self.has_eta:
@@ -93,7 +94,7 @@ class ProgressBar(object):
         self._min = min
         self._max = max
         self._fmt = fmt
-        self.target = target
+        self._target = target
         self._value = min
         self._percentage = 0.0
         self._bdels = 0
@@ -156,7 +157,7 @@ class ProgressBar(object):
 
     def clear(self):
         """Remove the progress bar from the output stream."""
-        self.target.write('\r' + ' ' * self._lastlen + '\r')
+        self._target.write('\r' + ' ' * self._lastlen + '\r')
 
     def reset(self):
         """Reset the progress bar."""
@@ -182,8 +183,8 @@ class ProgressBar(object):
 
         self.clear()
         tmp = self._fmt.format(*args, **tempdict)
-        self.target.write(tmp)
-        self.target.flush()  # Needed for Python 3.x
+        self._target.write(tmp)
+        self._target.flush()  # Needed for Python 3.x
         self._lastlen = len(tmp)
 
     def autoupdate(self, value, *args, **kwargs):
@@ -303,6 +304,18 @@ class ProgressBar(object):
     def format(self, fmt):
         self._check_format(fmt)
         self._fmt = fmt
+
+    @property
+    def target(self):
+        return self._target
+
+    @target.setter
+    def target(self, t):
+        if t not in (sys.stdout, sys.stderr):
+            raise ValueError("Valid targets are either sys.stdout or "
+                             "sys.stderr")
+
+        self._target = t
 
     def __str__(self):
         """Return the string representation as used by show()."""

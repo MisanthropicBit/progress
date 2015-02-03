@@ -2,7 +2,7 @@
 
 """ProgressText class."""
 
-__date__ = '2014-06-13'  # YYYY-MM-DD
+__date__ = '2015-02-03'  # YYYY-MM-DD
 
 import sys
 import string
@@ -19,7 +19,7 @@ except NameError:
     next = _next
 
 
-# Ensure compatibility with both Python 2.x/3.x (x)range functions
+# Ensure compatibility with both Python 2.x/3.x lazy range functions
 try:
     irange = xrange
 except NameError:
@@ -42,20 +42,9 @@ class ProgressText(object):
         include the emtpy string when progressing.
 
         """
-        if not fmt:
-            raise ValueError("Expected a non-empty format string")
+        self._check_format(fmt)
 
-        formatter = string.Formatter()
-        count = 0
-
-        for _, name, _, _ in formatter.parse(fmt):
-            if name == ProgressText._VALID_FMT:
-                count += 1
-                if count > 1:
-                    raise ValueError("'{0}' appears more than once"
-                                     .format(name))
-
-        self.fmt = fmt
+        self._fmt = fmt
         self._progress = progress
         self._autoreset = autoreset
         self.include_empty = include_empty
@@ -73,9 +62,9 @@ class ProgressText(object):
         """Remove the progress text from the output stream."""
         mv_cursor = '\r' * self._lastlen
 
-        self.target.write(mv_cursor)
-        self.target.write(' ' * self._lastlen)
-        self.target.write(mv_cursor)
+        self._target.write(mv_cursor)
+        self._target.write(' ' * self._lastlen)
+        self._target.write(mv_cursor)
 
     def reset(self):
         """Reset the progress text."""
@@ -101,13 +90,13 @@ class ProgressText(object):
                                      "format keys")
                 tempdict.update(kwargs)
 
-            self._txt = self.fmt.format(*args, **tempdict)
+            self._txt = self._fmt.format(*args, **tempdict)
         else:
-            self._txt = self.fmt.format(**self._fmtdict)
+            self._txt = self._fmt.format(**self._fmtdict)
 
         self.clear()
-        self.target.write(self._txt)
-        self.target.flush()  # Needed for Python 3.x
+        self._target.write(self._txt)
+        self._target.flush()  # Needed for Python 3.x
         self._lastlen = len(self._txt)
 
     def autoupdate(self, *args, **kwargs):
@@ -122,6 +111,20 @@ class ProgressText(object):
         self.clear()
         self.show(*args, **kwargs)
         self.update()
+
+    def _check_format(self, fmt):
+        """Check that a given format is valid."""
+        if not fmt:
+            raise ValueError("Expected a non-empty format string")
+
+        count = 0
+
+        for _, name, _, _ in string.Formatter().parse(fmt):
+            if name == ProgressText._VALID_FMT:
+                count += 1
+                if count > 1:
+                    raise ValueError("'{0}' appears more than once"
+                                     .format(name))
 
     @property
     def value(self):
@@ -144,6 +147,18 @@ class ProgressText(object):
         self.reset()
 
     @property
+    def target(self):
+        return self._target
+
+    @target.setter
+    def target(self, t):
+        if t not in (sys.stdout, sys.stderr):
+            raise ValueError("Valid targets are either sys.stdout or "
+                             "sys.stderr")
+
+        self._target = t
+
+    @property
     def progress(self):
         return self._progress
 
@@ -152,9 +167,18 @@ class ProgressText(object):
         self._progress = value
         self.reset()
 
+    @property
+    def format(self):
+        return self._fmt
+
+    @format.setter
+    def format(self, fmt):
+        self._check_format(fmt)
+        self._fmt = fmt
+
     def __str__(self):
         """Return the string representation as used by show()."""
-        return self.fmt.format(**self._fmtdict)
+        return self._fmt.format(**self._fmtdict)
 
     def __repr__(self):
         """Return the same string representation as __str()__."""

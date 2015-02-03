@@ -3,13 +3,15 @@
 
 """py.test file for the progress.ProgressText class."""
 
-__date__ = '2014-06-13'  # YYYY-MM-DD
+__date__ = '2015-02-03'  # YYYY-MM-DD
 
+import sys
 import pytest
 import progress
 
 
 def test_progresstext():
+    # Test initialisation errors
     with pytest.raises(ValueError):
         progress.ProgressText('', '')
 
@@ -19,6 +21,7 @@ def test_progresstext():
     with pytest.raises(ValueError):
         progress.ProgressText('{progress} {progress}', '')
 
+    # Test basic properties
     testtext = progress.ProgressText('Searching{progress}', '...')
     assert testtext.value == '.'
 
@@ -36,9 +39,23 @@ def test_progresstext():
     assert testtext.value == '|'
     assert testtext.autoreset is True
 
-    testtext.fmt = 'Searching {progress}'
+    testtext.format = 'Searching {progress}'
+    assert testtext.value == '|'
     assert len(testtext) == 11
     assert str(testtext) == 'Searching |'
+
+    testtext.target = sys.stdout
+    assert testtext.target is sys.stdout
+
+    testtext.target = sys.stderr
+    assert testtext.target is sys.stderr
+
+    # Should fail because only sys.stdout and sys.stderr are allowed
+    with pytest.raises(ValueError):
+        testtext.target = sys.stdin
+
+    with pytest.raises(ValueError):
+        testtext.target = "sys.fail"
 
     testtext.update()
     assert testtext.value == '/'
@@ -56,6 +73,7 @@ def test_progresstext():
     testtext.show(*l, **d)
     testtext.autoupdate(*l, **d)
 
+    # Should fail because you cannot use reserved keys
     with pytest.raises(ValueError):
         d['progress'] = 'I am not allowed :('
         testtext.autoupdate(**d)
@@ -76,3 +94,7 @@ def test_progresstext():
 
     testtext.update()
     assert testtext.value == ''
+
+
+if __name__ == '__main__':
+    test_progresstext()
