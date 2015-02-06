@@ -2,7 +2,7 @@
 
 """ProgressBar class."""
 
-__date__ = '2015-02-02'  # YYYY-MM-DD
+__date__ = '2015-02-06'  # YYYY-MM-DD
 
 import sys
 import time
@@ -21,7 +21,7 @@ class ProgressBar(object):
     _NOMINATOR = 'nominator'
     _DENOMINATOR = 'denominator'
     _VALID_ETA = ['hours', 'minutes', 'seconds']
-    _VALID_FMTS = ['progress', 'percentage', 'nominator', 'denominator'] \
+    _VALID_FMTS = ['progress', 'percentage', 'nominator', 'denominator']\
         + _VALID_ETA
 
     def __init__(self, fmt, width=20, char='=', head='>', fill=' ',
@@ -40,9 +40,6 @@ class ProgressBar(object):
 
         """
         # Do a ton of error checking to ensure a valid format and parameters
-        # if not fmt:
-        #     raise ValueError("Expected a non-empty format string")
-
         if int(width) <= 0:
             raise ValueError("Width must be greater than zero")
 
@@ -55,23 +52,12 @@ class ProgressBar(object):
             raise ValueError("Character lengths or combined length must be "
                              "less than progress bar width")
 
-        # fmt_count = dict.fromkeys(ProgressBar._VALID_FMTS, 0)
-        # self.has_eta = False
         self._progchar = fill * width
         self._fmtdict = dict(zip(ProgressBar._VALID_FMTS,
                                  [self._progchar, 0.0, 0, max, 0, 0, 0]))
+
+        # Check the format is valid
         self._check_format(fmt)
-
-        # for _, name, _, _ in string.Formatter().parse(fmt):
-        #     if name in ProgressBar._VALID_ETA:
-        #         self._fmtdict[name] = 0
-        #         self.has_eta = True
-        #     elif name in ProgressBar._VALID_FMTS:
-        #         fmt_count[name] += 1
-
-        #         if fmt_count[name] > 1:
-        #             raise ValueError("Format string '{0}' appears more "
-        #                              "than once".format(name))
 
         if etaobj is None:
             if self.has_eta:
@@ -129,8 +115,8 @@ class ProgressBar(object):
                 (self._char if not self._head else self._head)
 
         self._fmtdict.update(zip([ProgressBar._PROGRESS,
-                                 ProgressBar._PERCENTAGE,
-                                 ProgressBar._NOMINATOR],
+                                  ProgressBar._PERCENTAGE,
+                                  ProgressBar._NOMINATOR],
                                  [self._progchar,
                                   self._percentage * 100.0,
                                   self._value]))

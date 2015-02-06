@@ -3,8 +3,9 @@
 
 """py.test file for the progress.ProgressBar class."""
 
-__date__ = '2015-02-02'  # YYYY-MM-DD
+__date__ = '2015-02-06'  # YYYY-MM-DD
 
+import math
 import pytest
 import progress
 import progress.eta
@@ -68,7 +69,7 @@ def test_progressbar():
         with pytest.raises(ValueError):
             progress.ProgressBar(**kwargs)
 
-    testbar = progress.ProgressBar(' ')
+    testbar = progress.ProgressBar('[{progress}]')
     assert testbar.min == 0
     assert testbar.max == 100
     assert testbar.char == '='
@@ -113,15 +114,32 @@ def test_progressbar():
     assert testbar.percent == 1.0
     assert testbar.done()
 
+    # Test proper reset
     testbar.reset()
     assert testbar.value == 0
     assert testbar.percent == 0.0
+    assert str(testbar) == '[' + testbar.head +\
+        (testbar.fill * (testbar.width - 1)) + ']'
     assert not testbar.done()
 
+    # Test autoupdate feature
     testbar.autoupdate(22)
     assert testbar.value == 22
     assert testbar.percent == 0.22
     assert not testbar.done()
+
+    # Test visual feature updates through properties
+    testbar.value = 0
+    testbar += 50
+    testbar.head = '?'
+    assert testbar.head == '?'
+    testbar.char = '@'
+    assert testbar.char == '@'
+    testbar.fill = '_'
+    assert testbar.fill == '_'
+    assert str(testbar) == '[' +\
+        ('@' * (testbar.width / 2 - 1)) + '?' +\
+        ('_' * (testbar.width / 2)) + ']'
 
     assert type(testbar.format) is str
     testbar.format = "{percentage}%"

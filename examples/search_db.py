@@ -3,7 +3,7 @@
 
 """Simple usage of ProgressText."""
 
-__date__ = '2014-06-16'  # YYYY-MM-DD
+__date__ = '2015-02-06'  # YYYY-MM-DD
 
 import time
 import progress
@@ -13,6 +13,7 @@ def update_progtxt(progress_text):
     while True:
         progress_text.clear()
         progress_text.show()
+
 
 if __name__ == '__main__':
     text = progress.ProgressText('Searching {progress}', '/-\\|',
