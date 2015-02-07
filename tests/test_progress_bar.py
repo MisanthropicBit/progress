@@ -138,8 +138,8 @@ def test_progressbar():
     testbar.fill = '_'
     assert testbar.fill == '_'
     assert str(testbar) == '[' +\
-        ('@' * (testbar.width / 2 - 1)) + '?' +\
-        ('_' * (testbar.width / 2)) + ']'
+        ('@' * (testbar.width // 2 - 1)) + '?' +\
+        ('_' * (testbar.width // 2)) + ']'
 
     assert type(testbar.format) is str
     testbar.format = "{percentage}%"
