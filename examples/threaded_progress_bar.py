@@ -5,8 +5,6 @@
 
 from __future__ import print_function
 
-__date__ = '2014-06-16'  # YYYY-MM-DD
-
 try:
     import Queue as queue  # Python 2
 except ImportError:
@@ -16,6 +14,8 @@ import time
 import random
 import threading
 import progress
+
+__date__ = '2015-02-07'  # YYYY-MM-DD
 
 
 class WorkerThread(threading.Thread):

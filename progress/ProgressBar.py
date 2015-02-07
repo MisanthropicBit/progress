@@ -2,13 +2,14 @@
 
 """ProgressBar class."""
 
-__date__ = '2015-02-06'  # YYYY-MM-DD
 
 import sys
 import time
 import string
 import progress
 import progress.eta
+
+__date__ = '2015-02-07'  # YYYY-MM-DD
 
 
 class ProgressBar(object):

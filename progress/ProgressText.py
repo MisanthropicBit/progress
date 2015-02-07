@@ -2,11 +2,11 @@
 
 """ProgressText class."""
 
-__date__ = '2015-02-03'  # YYYY-MM-DD
-
 import sys
 import string
 import itertools
+
+__date__ = '2015-02-03'  # YYYY-MM-DD
 
 
 # Ensure compatibility with both Python 2.x/3.x next functions

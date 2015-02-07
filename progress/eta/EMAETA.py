@@ -1,9 +1,10 @@
 """A class implementing an exponentially moving average."""
 
-__date__ = '2014-05-23'  # YYYY-MM-DD
 
 import progress.decorators
 from progress.eta.BaseETA import BaseETA
+
+__date__ = '2015-02-07'  # YYYY-MM-DD
 
 
 @progress.decorators.inherit_docstrings

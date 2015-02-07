@@ -5,12 +5,12 @@
 
 from __future__ import print_function
 
-__date__ = '2014-06-16'  # YYYY-MM-DD
-
 import time
 import random
 import progress
 import progress.eta
+
+__date__ = '2015-02-07'  # YYYY-MM-DD
 
 
 if __name__ == '__main__':

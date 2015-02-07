@@ -3,11 +3,12 @@
 
 """py.test file for the progress.ProgressText class."""
 
-__date__ = '2015-02-03'  # YYYY-MM-DD
 
 import sys
 import pytest
 import progress
+
+__date__ = '2015-02-07'  # YYYY-MM-DD
 
 
 def test_progresstext():

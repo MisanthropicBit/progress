@@ -3,12 +3,13 @@
 
 """py.test file for the progress.ProgressBar class."""
 
-__date__ = '2015-02-06'  # YYYY-MM-DD
 
 import math
 import pytest
 import progress
 import progress.eta
+
+__date__ = '2015-02-07'  # YYYY-MM-DD
 
 
 fail_kwargs = [

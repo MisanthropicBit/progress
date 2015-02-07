@@ -5,11 +5,11 @@
 
 from __future__ import print_function
 
-__date__ = '2015-02-06'  # YYYY-MM-DD
-
 import time
 import random
 import progress
+
+__date__ = '2015-02-07'  # YYYY-MM-DD
 
 
 def download_file():
