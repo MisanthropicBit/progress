@@ -1,6 +1,6 @@
 """Base class for all derived ETA objects."""
 
-__date__ = '2014-02-18'  # YYYY-MM-DD
+__date__ = '2015-02-12'  # YYYY-MM-DD
 
 
 class BaseETA(object):
@@ -27,6 +27,10 @@ class BaseETA(object):
         seconds or None otherwise
 
         """
+        raise NotImplementedError("Must be implemented in subclass")
+
+    def reset(self):
+        """Reset the ETA object."""
         raise NotImplementedError("Must be implemented in subclass")
 
     def format_eta(self, eta):

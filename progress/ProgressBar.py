@@ -150,6 +150,9 @@ class ProgressBar(object):
         """Reset the progress bar."""
         self.value = self.min
 
+        if self.etaobj:
+            self.etaobj.reset()
+
     def done(self):
         """Return True if the progress bar has completed."""
         return self._value == self.max

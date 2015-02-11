@@ -8,7 +8,7 @@ past value
 import progress.decorators
 from progress.eta.BaseETA import BaseETA
 
-__date__ = '2015-02-07'  # YYYY-MM-DD
+__date__ = '2015-02-12'  # YYYY-MM-DD
 
 
 @progress.decorators.inherit_docstrings
@@ -23,8 +23,7 @@ class SimpleETA(BaseETA):
     """
 
     def __init__(self):
-        self.history = []
-        self.eta = 0.0
+        self.reset()
 
     def update(self, time, value, maxval):
         self.history.append((time, value))
@@ -43,3 +42,7 @@ class SimpleETA(BaseETA):
 
     def get(self):
         return self.format_eta(self.eta)
+
+    def reset(self):
+        self.history = []
+        self.eta = 0

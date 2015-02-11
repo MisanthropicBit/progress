@@ -4,7 +4,7 @@
 import progress.decorators
 from progress.eta.BaseETA import BaseETA
 
-__date__ = '2015-02-07'  # YYYY-MM-DD
+__date__ = '2015-02-12'  # YYYY-MM-DD
 
 
 @progress.decorators.inherit_docstrings
@@ -19,13 +19,8 @@ class EMAETA(BaseETA):
 
     def __init__(self, decay=0.1):
         """Decay controls how fast past values' effect decreases."""
-        if decay < 0.0 or decay > 1.0:
-            raise ValueError("Decay must be in range [0.0, 1.0]")
-
         self.decay = decay
-        self.speed = 0.0
-        self.ema = 0.0
-        self.history = []
+        self.reset()
 
     def update(self, time, value, maxval):
         self.history.append((time, value))
@@ -45,3 +40,19 @@ class EMAETA(BaseETA):
 
     def get(self):
         return self.format_eta(self.ema) if self.ema else None
+
+    def reset(self):
+        self.speed = 0.
+        self.ema = 0.
+        self.history = []
+
+    @property
+    def decay(self):
+        return self._decay
+
+    @decay.setter
+    def decay(self, decay):
+        if decay < 0.0 or decay > 1.0:
+            raise ValueError("Decay must be in range [0.0, 1.0]")
+
+        self._decay = decay
