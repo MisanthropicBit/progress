@@ -9,7 +9,7 @@ import string
 import progress
 import progress.eta
 
-__date__ = '2015-02-07'  # YYYY-MM-DD
+__date__ = '2015-02-12'  # YYYY-MM-DD
 
 
 class ProgressBar(object):
@@ -59,6 +59,8 @@ class ProgressBar(object):
 
         # Check the format is valid
         self._check_format(fmt)
+
+        self.etaobj = None
 
         if etaobj is None:
             if self.has_eta:
