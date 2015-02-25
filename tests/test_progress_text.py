@@ -8,7 +8,7 @@ import sys
 import pytest
 import progress
 
-__date__ = '2015-02-07'  # YYYY-MM-DD
+__date__ = '2015-02-25'  # YYYY-MM-DD
 
 
 def test_progresstext():
@@ -25,15 +25,18 @@ def test_progresstext():
     # Test basic properties
     testtext = progress.ProgressText('Searching{progress}', '...')
     assert testtext.value == '.'
+    assert testtext.autoreset == False
 
     testtext.update()
     assert testtext.value == '..'
+    assert testtext.include_empty == False
 
     testtext.update()
     assert testtext.value == '...'
 
     testtext.autoupdate()
     assert testtext.value == '.'
+    assert testtext.target is sys.stderr
 
     testtext.progress = '|/-\\'
     testtext.autoreset = True
@@ -73,6 +76,7 @@ def test_progresstext():
     d = dict(a=1, b=3)
     testtext.show(*l, **d)
     testtext.autoupdate(*l, **d)
+    assert testtext.target is sys.stderr
 
     # Should fail because you cannot use reserved keys
     with pytest.raises(ValueError):
@@ -95,3 +99,27 @@ def test_progresstext():
 
     testtext.update()
     assert testtext.value == ''
+
+    # Test the include_empty property
+    testtext.include_empty = True
+    assert testtext.value == ''
+
+    testtext.update()
+    assert testtext.value == '.'
+
+    testtext.update()
+    assert testtext.value == '..'
+
+    testtext.update()
+    assert testtext.value == '...'
+    assert testtext.include_empty == True
+
+    testtext.update()
+    assert testtext.value == ''
+
+    # Test switching targets
+    testtext.target = sys.stdout
+    assert testtext.target is sys.stdout
+
+    with pytest.raises(ValueError):
+        testtext.target = sys.stdin

@@ -9,7 +9,7 @@ import string
 import progress
 import progress.eta
 
-__date__ = '2015-02-12'  # YYYY-MM-DD
+__date__ = '2015-02-25'  # YYYY-MM-DD
 
 
 class ProgressBar(object):
@@ -324,4 +324,4 @@ class ProgressBar(object):
 
     def __len__(self):
         """Return the current length of the progress in characters."""
-        return self._value
+        return len(str(self))

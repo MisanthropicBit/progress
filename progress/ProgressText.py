@@ -6,7 +6,7 @@ import sys
 import string
 import itertools
 
-__date__ = '2015-02-03'  # YYYY-MM-DD
+__date__ = '2015-02-25'  # YYYY-MM-DD
 
 
 # Ensure compatibility with both Python 2.x/3.x next functions
@@ -33,7 +33,7 @@ class ProgressText(object):
     _VALID_FMT = 'progress'
 
     def __init__(self, fmt, progress, autoreset=False, include_empty=False,
-                 target=sys.stdout):
+                 target=sys.stderr):
         """Initialize with static text.
 
         E.g. 'Searching' and a list of postfixes. If autoreset
@@ -47,8 +47,8 @@ class ProgressText(object):
         self._fmt = fmt
         self._progress = progress
         self._autoreset = autoreset
-        self.include_empty = include_empty
-        self.target = target
+        self._include_empty = include_empty
+        self._target = target
         self._fmtdict = {}
         self._txt = fmt
         self._lastlen = 0
@@ -73,7 +73,7 @@ class ProgressText(object):
         else:
             self._cycle = itertools.cycle(self._progress[:end]
                                           for end in
-                                          irange(0 if self.include_empty
+                                          irange(0 if self._include_empty
                                                  else 1,
                                                  len(self._progress) + 1))
 
@@ -143,7 +143,18 @@ class ProgressText(object):
 
     @autoreset.setter
     def autoreset(self, value):
+        """Set the autoreset flag and reset the ProgressText."""
         self._autoreset = value
+        self.reset()
+
+    @property
+    def include_empty(self):
+        return self._include_empty
+
+    @include_empty.setter
+    def include_empty(self, value):
+        """Set the include_empty flag and reset the ProgressText."""
+        self._include_empty = value
         self.reset()
 
     @property

@@ -3,13 +3,13 @@
 
 """py.test file for the progress.ProgressBar class."""
 
-
+import sys
 import math
 import pytest
 import progress
 import progress.eta
 
-__date__ = '2015-02-07'  # YYYY-MM-DD
+__date__ = '2015-02-24'  # YYYY-MM-DD
 
 
 fail_kwargs = [
@@ -76,6 +76,7 @@ def test_progressbar():
     assert testbar.char == '='
     assert testbar.head == '>'
     assert testbar.width == 20
+    assert len(testbar) == len('[' + (testbar.fill * testbar.width) + ']')
 
     # Attempt to update with a negative value
     with pytest.raises(ValueError):
@@ -93,6 +94,8 @@ def test_progressbar():
     testbar.value = 50
     assert testbar.value == 50
     assert testbar.percent == 0.5
+    assert testbar.max == 100
+    assert testbar.target is sys.stderr
 
     testbar.update(25)
     assert testbar.value == 75
@@ -127,11 +130,15 @@ def test_progressbar():
     testbar.autoupdate(22)
     assert testbar.value == 22
     assert testbar.percent == 0.22
+    assert testbar.min == 0
     assert not testbar.done()
 
     # Test visual feature updates through properties
     testbar.value = 0
     testbar += 50
+    testbar.max = 200
+    assert testbar.max == 200
+    assert testbar.min == 0
     testbar.head = '?'
     assert testbar.head == '?'
     testbar.char = '@'
@@ -139,8 +146,9 @@ def test_progressbar():
     testbar.fill = '_'
     assert testbar.fill == '_'
     assert str(testbar) == '[' +\
-        ('@' * (testbar.width // 2 - 1)) + '?' +\
-        ('_' * (testbar.width // 2)) + ']'
+        ('@' * (int(testbar.width * 0.25) - 1)) + '?' +\
+        ('_' * (int(testbar.width * 0.75))) + ']'
+    assert testbar.target is sys.stderr
 
     assert type(testbar.format) is str
     testbar.format = "{percentage}%"
@@ -153,6 +161,13 @@ def test_progressbar():
     # Fails due to an empty format string
     with pytest.raises(ValueError):
         testbar.format = ""
+
+    # Test switching targets
+    testbar.target = sys.stdout
+    assert testbar.target is sys.stdout
+
+    with pytest.raises(ValueError):
+        testbar.target = sys.stdin
 
     l = list(range(3))
     d = dict(a=1, b=3)

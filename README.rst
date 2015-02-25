@@ -1,4 +1,4 @@
-**progress v1.2.0**
+**progress v1.3.0**
 ===================
 
 .. image:: https://travis-ci.org/MisanthropicBit/progress.svg?branch=master

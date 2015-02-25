@@ -1,1 +1,1 @@
-include README.rst CHANGES.rst LICENSE ./tests ./examples
+include README.rst CHANGES.rst LICENSE tests/*.py examples/*.py
