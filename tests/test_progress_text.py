@@ -25,11 +25,11 @@ def test_progresstext():
     # Test basic properties
     testtext = progress.ProgressText('Searching{progress}', '...')
     assert testtext.value == '.'
-    assert testtext.autoreset == False
+    assert not testtext.autoreset
 
     testtext.update()
     assert testtext.value == '..'
-    assert testtext.include_empty == False
+    assert not testtext.include_empty
 
     testtext.update()
     assert testtext.value == '...'
@@ -112,7 +112,7 @@ def test_progresstext():
 
     testtext.update()
     assert testtext.value == '...'
-    assert testtext.include_empty == True
+    assert testtext.include_empty
 
     testtext.update()
     assert testtext.value == ''
