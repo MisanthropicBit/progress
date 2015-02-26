@@ -9,7 +9,7 @@ import pytest
 import progress
 import progress.eta
 
-__date__ = '2015-02-24'  # YYYY-MM-DD
+__date__ = '2015-02-26'  # YYYY-MM-DD
 
 
 fail_kwargs = [
@@ -133,6 +133,20 @@ def test_progressbar():
     assert testbar.min == 0
     assert not testbar.done()
 
+    # Test 'percent' property
+    testbar.percent = 0.73408248
+    assert (testbar.percent - 0.73408248) < 1.5e-16
+    assert testbar.value == testbar.max * 0.73408248
+    assert testbar.min == 0
+    assert testbar.max == 100
+
+    # Test 'width' property
+    testbar.width = 30
+    assert testbar.width == 30
+    assert str(testbar) == '[' +\
+        (testbar.char * (int(testbar.width * 0.75) - 1)) + testbar.head +\
+        (testbar.fill * (int(testbar.width * 0.25) + 1)) + ']'
+
     # Test visual feature updates through properties
     testbar.value = 0
     testbar += 50
@@ -147,7 +161,7 @@ def test_progressbar():
     assert testbar.fill == '_'
     assert str(testbar) == '[' +\
         ('@' * (int(testbar.width * 0.25) - 1)) + '?' +\
-        ('_' * (int(testbar.width * 0.75))) + ']'
+        ('_' * (int(testbar.width * 0.75) + 1)) + ']'
     assert testbar.target is sys.stderr
 
     assert type(testbar.format) is str

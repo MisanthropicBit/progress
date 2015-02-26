@@ -9,7 +9,7 @@ import string
 import progress
 import progress.eta
 
-__date__ = '2015-02-25'  # YYYY-MM-DD
+__date__ = '2015-02-26'  # YYYY-MM-DD
 
 
 class ProgressBar(object):
@@ -267,7 +267,8 @@ class ProgressBar(object):
 
     @percent.setter
     def percent(self, percent):
-        self._percentage = percent
+        # Percentage will be set in self._update
+        self._value = self.min + percent * (self.max - self.min)
         self._update(0)
 
     @property
