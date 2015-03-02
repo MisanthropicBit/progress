@@ -60,13 +60,13 @@ class ProgressBar(object):
         # Check the format is valid
         self._check_format(fmt)
 
-        self.etaobj = None
+        self._etaobj = None
 
         if etaobj is None:
-            if self.has_eta:
-                self.etaobj = progress.eta.SimpleETA()
+            if self._has_eta:
+                self._etaobj = progress.eta.SimpleETA()
         else:
-            if not self.has_eta:
+            if not self._has_eta:
                 raise ValueError("Specified etaobj, but missing eta format in "
                                  "format string")
 
@@ -74,7 +74,7 @@ class ProgressBar(object):
                 raise TypeError("ETA object must derive from the "
                                 "progress.eta.BaseETA class")
 
-            self.etaobj = etaobj
+            self._etaobj = etaobj
 
         self._width = width
         self._char = char
@@ -127,9 +127,9 @@ class ProgressBar(object):
     def update(self, value):
         """Update the progress bar with value."""
         # Update and format ETA if needed
-        if self.has_eta:
-            self.etaobj.update(self._timer(), self._value, self.max)
-            res = self.etaobj.get()
+        if self._has_eta:
+            self._etaobj.update(self._timer(), self._value, self.max)
+            res = self._etaobj.get()
 
             if res is not None:
                 if type(res) not in (tuple, list):
@@ -152,8 +152,8 @@ class ProgressBar(object):
         """Reset the progress bar."""
         self.value = self.min
 
-        if self.etaobj:
-            self.etaobj.reset()
+        if self._etaobj:
+            self._etaobj.reset()
 
     def done(self):
         """Return True if the progress bar has completed."""
@@ -198,12 +198,12 @@ class ProgressBar(object):
             raise ValueError("Expected a non-empty format string")
 
         fmt_count = dict.fromkeys(ProgressBar._VALID_FMTS, 0)
-        self.has_eta = False
+        self._has_eta = False
 
         for _, name, _, _ in string.Formatter().parse(fmt):
             if name in ProgressBar._VALID_ETA:
                 self._fmtdict[name] = 0
-                self.has_eta = True
+                self._has_eta = True
             elif name in ProgressBar._VALID_FMTS:
                 fmt_count[name] += 1
 

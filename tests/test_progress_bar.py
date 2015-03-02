@@ -64,6 +64,11 @@ class FailETA3(object):
     pass
 
 
+def approx_equals(a, b):
+    """Return True if the difference between a and b is very small."""
+    return (a - b) < 1.5e-16
+
+
 def test_progressbar():
     # Test keyword arguments that should fail
     for kwargs in fail_kwargs:
@@ -77,6 +82,8 @@ def test_progressbar():
     assert testbar.head == '>'
     assert testbar.width == 20
     assert len(testbar) == len('[' + (testbar.fill * testbar.width) + ']')
+    assert not testbar._has_eta
+    assert testbar._etaobj is None
 
     # Attempt to update with a negative value
     with pytest.raises(ValueError):
@@ -135,7 +142,7 @@ def test_progressbar():
 
     # Test 'percent' property
     testbar.percent = 0.73408248
-    assert (testbar.percent - 0.73408248) < 1.5e-16
+    assert approx_equals(testbar.percent,  0.73408248)
     assert testbar.value == testbar.max * 0.73408248
     assert testbar.min == 0
     assert testbar.max == 100
@@ -164,12 +171,24 @@ def test_progressbar():
         ('_' * (int(testbar.width * 0.75) + 1)) + ']'
     assert testbar.target is sys.stderr
 
+    # Test setting the 'min' property
     testbar.min = -10
     assert testbar.min == -10
+    assert testbar.max == 200
+    assert testbar.value == 50
+    assert approx_equals(testbar.percent, 0.2857142857142857)
+    
+    testbar.value = 95
+    assert testbar.value == 95
+    assert approx_equals(testbar.percent, 0.5)
 
     assert type(testbar.format) is str
     testbar.format = "{percentage}%"
     assert testbar.format == "{percentage}%"
+
+    # Test setting an ETA
+    testbar.format = "{progress} {percentage}% {minutes}"
+    assert testbar._has_eta
 
     # Fails due to 'progress' key being used twice
     with pytest.raises(ValueError):
