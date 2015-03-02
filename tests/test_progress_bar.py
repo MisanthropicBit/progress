@@ -4,7 +4,6 @@
 """py.test file for the progress.ProgressBar class."""
 
 import sys
-import math
 import pytest
 import progress
 import progress.eta
@@ -177,7 +176,7 @@ def test_progressbar():
     assert testbar.max == 200
     assert testbar.value == 50
     assert approx_equals(testbar.percent, 0.2857142857142857)
- 
+
     testbar.value = 95
     assert testbar.value == 95
     assert approx_equals(testbar.percent, 0.5)
