@@ -142,7 +142,7 @@ def test_progressbar():
 
     # Test 'percent' property
     testbar.percent = 0.73408248
-    assert approx_equals(testbar.percent,  0.73408248)
+    assert approx_equals(testbar.percent, 0.73408248)
     assert testbar.value == testbar.max * 0.73408248
     assert testbar.min == 0
     assert testbar.max == 100
@@ -177,7 +177,7 @@ def test_progressbar():
     assert testbar.max == 200
     assert testbar.value == 50
     assert approx_equals(testbar.percent, 0.2857142857142857)
-    
+ 
     testbar.value = 95
     assert testbar.value == 95
     assert approx_equals(testbar.percent, 0.5)
