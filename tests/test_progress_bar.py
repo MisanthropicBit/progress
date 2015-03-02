@@ -164,6 +164,9 @@ def test_progressbar():
         ('_' * (int(testbar.width * 0.75) + 1)) + ']'
     assert testbar.target is sys.stderr
 
+    testbar.min = -10
+    assert testbar.min == -10
+
     assert type(testbar.format) is str
     testbar.format = "{percentage}%"
     assert testbar.format == "{percentage}%"
