@@ -1,6 +1,8 @@
 """progress module setup script for distribution."""
 
 from __future__ import with_statement
+
+import os
 import distutils.core
 
 
@@ -13,10 +15,10 @@ def get_version(filename):
 
 distutils.core.setup(
     name='progress2',
-    version=get_version('./progress/__init__.py'),
+    version=get_version(os.path.join('progress', '__init__.py')),
     author='Alexander Bock',
     author_email='alexander.asp.bock@gmail.com',
-    platforms='Platform independent',
+    platforms='All',
     description=('Allows for easy creation of progress-bars and text'),
     license='MIT',
     keywords='progress, progressbar, progresstext',
