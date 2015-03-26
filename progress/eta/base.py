@@ -1,6 +1,6 @@
 """Base class for all derived ETA objects."""
 
-__date__ = '2015-02-12'  # YYYY-MM-DD
+__date__ = '2015-02-26'  # YYYY-MM-DD
 
 
 class BaseETA(object):
@@ -38,3 +38,8 @@ class BaseETA(object):
         mins, secs = divmod(eta, 60)
         hrs, mins = divmod(mins, 60)
         return list(map(int, (hrs, mins, secs)))
+
+    @property
+    def eta(self):
+        """Return the unformatted ETA."""
+        raise NotImplementedError("Must be implemented in subclass")

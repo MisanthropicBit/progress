@@ -1,10 +1,9 @@
 """Implements a simple ETA calculation."""
 
-import collections
 import progress.decorators
 from progress.eta.base import BaseETA
 
-__date__ = '2015-03-18'  # YYYY-MM-DD
+__date__ = '2015-03-26'  # YYYY-MM-DD
 
 
 @progress.decorators.inherit_docstrings
@@ -19,30 +18,36 @@ class SimpleETA(BaseETA):
     """
 
     def __init__(self):
-        self._deque = collections.deque()
         self.reset()
 
-    def update(self, time, value, maxval):
-        self._deque.append(tuple(time, value))
-        self._maxval = _maxval
+    def update(self, time, value, maxvalue):
+        self._maxvalue = maxvalue
 
-        if len(self._deque) > 1:
-            # Compute differences in speed and
-            # time between the last two updates
-            dt = float(self._deque[-1][0]) - float(self._deque[-2][0])
-            dv = self._deque[-1][1] - self._deque[-2][1]
+        if self._history:
+            # Have previous values, compute ETA
+            dt, dv = (float(abs(i-j))
+                      for i, j in zip(self._history, [time, value]))
 
-            speed = dv / dt
-            self._deque.popleft()
-
-            if speed != 0.0:
-                self.eta = float(self._maxval - self._deque[1][1]) / speed
+            if dt > 0. and dv > 0.:
+                self._eta = float(self._maxvalue - value) / (dv / dt)
             else:
-                self.eta = None
+                self._eta = None
+        else:
+            # Assume previous values of zero
+            if time > 0. and value > 0.:
+                self._eta = float(self._maxvalue - value) / (value / time)
+
+        # Update history
+        self._history = [time, value]
 
     def get(self):
         return self.format_eta(self.eta)
 
     def reset(self):
-        self._deque.clear()
-        self.eta = 0
+        self._history = []
+        self._eta = 0
+        self._maxvalue = 0
+
+    @property
+    def eta(self):
+        self._eta
