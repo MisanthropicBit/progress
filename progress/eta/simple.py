@@ -24,7 +24,7 @@ class SimpleETA(BaseETA):
         self._maxvalue = maxvalue
 
         if self._history:
-            dt, dv = (float(abs(i-j))
+            dt, dv = (float(abs(i - j))
                       for i, j in zip(self._history, [time, value]))
         else:
             dt, dv = time, value

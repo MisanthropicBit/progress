@@ -26,7 +26,7 @@ class EMAETA(BaseETA):
 
         if self._history:
             # Compute the differences between time and values
-            dt, dv = (float(abs(i-j))
+            dt, dv = (float(abs(i - j))
                       for i, j in zip(self._history, [time, value]))
         else:
             dt, dv = float(time), float(value)
