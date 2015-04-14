@@ -3,7 +3,7 @@
 import progress.decorators
 from progress.eta.base import BaseETA
 
-__date__ = '2015-03-26'  # YYYY-MM-DD
+__date__ = '2015-04-13'  # YYYY-MM-DD
 
 
 @progress.decorators.inherit_docstrings
@@ -24,18 +24,13 @@ class SimpleETA(BaseETA):
         self._maxvalue = maxvalue
 
         if self._history:
-            # Have previous values, compute ETA
             dt, dv = (float(abs(i-j))
                       for i, j in zip(self._history, [time, value]))
-
-            if dt > 0. and dv > 0.:
-                self._eta = float(self._maxvalue - value) / (dv / dt)
-            else:
-                self._eta = None
         else:
-            # Assume previous values of zero
-            if time > 0. and value > 0.:
-                self._eta = float(self._maxvalue - value) / (value / time)
+            dt, dv = time, value
+
+        if dt > 0. and dv > 0.:
+            self._eta = float(self._maxvalue - value) / (dv / dt)
 
         # Update history
         self._history = [time, value]
@@ -50,4 +45,4 @@ class SimpleETA(BaseETA):
 
     @property
     def eta(self):
-        self._eta
+        return self._eta

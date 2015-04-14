@@ -1,6 +1,5 @@
 """Implements a moving average ETA class."""
 
-import collections
 import progress.decorators
 from progress.eta.base import BaseETA
 

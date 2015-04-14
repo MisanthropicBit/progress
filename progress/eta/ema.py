@@ -3,7 +3,7 @@
 import progress.decorators
 from progress.eta.base import BaseETA
 
-__date__ = '2015-03-26'  # YYYY-MM-DD
+__date__ = '2015-04-13'  # YYYY-MM-DD
 
 
 @progress.decorators.inherit_docstrings
@@ -22,20 +22,24 @@ class EMAETA(BaseETA):
         self.reset()
 
     def update(self, time, value, maxvalue):
+        self._maxvalue = maxvalue
+
         if self._history:
             # Compute the differences between time and values
             dt, dv = (float(abs(i-j))
                       for i, j in zip(self._history, [time, value]))
-
-            # Update the exponentially moving average
-            self._ema = self.decay * (float(dv) / float(dt)) +\
-                (1. - self.decay) * self._ema
         else:
-            self._ema = float(value) / float(time)
+            dt, dv = float(time), float(value)
+
+        if dt > 0. and dv > 0.:
+            # Update the exponentially moving average
+            self._ema = self.decay * (dv / dt) + (1. - self.decay) * self._ema
+        else:
+            self._ema = 0.
 
         # Update ETA and history
         if self._ema > 0.:
-            self._eta = (maxvalue - value) / self._ema
+            self._eta = (self._maxvalue - value) / self._ema
 
         self._history = [time, value]
 
@@ -44,7 +48,7 @@ class EMAETA(BaseETA):
 
     def reset(self):
         self._eta = None
-        self._ema = None
+        self._ema = 0.
         self._maxvalue = 0.
         self._history = []
 
