@@ -44,7 +44,7 @@ class EMAETA(BaseETA):
         self._history = [time, value]
 
     def get(self):
-        return self.format_eta(self._ema) if self._ema else None
+        return self.format_eta(self.eta) if self.eta else None
 
     def reset(self):
         self._eta = None
