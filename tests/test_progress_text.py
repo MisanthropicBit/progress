@@ -8,7 +8,7 @@ import sys
 import pytest
 import progress
 
-__date__ = '2015-02-25'  # YYYY-MM-DD
+__date__ = '2015-05-05'  # YYYY-MM-DD
 
 
 def test_progresstext():
@@ -39,11 +39,13 @@ def test_progresstext():
     assert testtext.target is sys.stderr
 
     testtext.progress = '|/-\\'
+    assert testtext.progress == '|/-\\'
     testtext.autoreset = True
     assert testtext.value == '|'
     assert testtext.autoreset is True
 
     testtext.format = 'Searching {progress}'
+    assert testtext.format == 'Searching {progress}'
     assert testtext.value == '|'
     assert len(testtext) == 11
     assert str(testtext) == 'Searching |'

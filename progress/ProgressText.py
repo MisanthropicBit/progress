@@ -6,7 +6,7 @@ import sys
 import string
 import itertools
 
-__date__ = '2015-02-25'  # YYYY-MM-DD
+__date__ = '2015-05-05'  # YYYY-MM-DD
 
 
 # Ensure compatibility with both Python 2.x/3.x next functions
@@ -34,7 +34,7 @@ class ProgressText(object):
 
     def __init__(self, fmt, progress, autoreset=False, include_empty=False,
                  target=sys.stderr):
-        """Initialize with static text.
+        """Initialise with static text.
 
         E.g. 'Searching' and a list of postfixes. If autoreset
         is set to True, clears each postfix on each update, otherwise
