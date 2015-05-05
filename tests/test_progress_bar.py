@@ -3,12 +3,14 @@
 
 """py.test file for the progress.ProgressBar class."""
 
+# TODO: Test width/char/head with strings of len() > 1
+
 import sys
 import pytest
 import progress
 import progress.eta
 
-__date__ = '2015-02-26'  # YYYY-MM-DD
+__date__ = '2015-05-05'  # YYYY-MM-DD
 
 
 fail_kwargs = [

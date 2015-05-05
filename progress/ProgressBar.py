@@ -98,11 +98,11 @@ class ProgressBar(object):
                              "a negative value")
 
         if value > 0:
-            self._value = self._value + value
+            self._value += value
             # Clamp to [mn, mx]
-            self._value = max(self.min, min(self._value, self.max))
+            self.value = max(self.min, min(self.value, self.max))
 
-        v = float(self._value - self.min) / float(self.max - self.min)
+        v = float(self.value - self.min) / float(self.max - self.min)
         self._percentage = v
 
         # Set progress string
