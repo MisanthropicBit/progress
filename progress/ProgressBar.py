@@ -217,6 +217,9 @@ class ProgressBar(object):
 
     @width.setter
     def width(self, width):
+        if width < 1:
+            raise ValueError("Width must be at least 1 character")
+
         self._width = width
         self._update(0)
 
@@ -226,6 +229,14 @@ class ProgressBar(object):
 
     @char.setter
     def char(self, char):
+        if len(char) < 1:
+            raise ValueError("char must be at least one character")
+
+        # Fix the width
+        self._fmtdict[self._PROGRESS] =\
+            self._fmtdict[self._PROGRESS].replace(self.char, char)
+        self._width = len(self._fmtdict[self._PROGRESS])
+
         self._char = char
         self._update(0)
 
@@ -235,6 +246,14 @@ class ProgressBar(object):
 
     @head.setter
     def head(self, head):
+        if len(head) < 1:
+            raise ValueError("head must be at least one character")
+
+        # Fix the width
+        self._fmtdict[self._PROGRESS] =\
+            self._fmtdict[self._PROGRESS].replace(self.head, head)
+        self._width = len(self._fmtdict[self._PROGRESS])
+
         self._head = head
         self._update(0)
 
@@ -244,6 +263,14 @@ class ProgressBar(object):
 
     @fill.setter
     def fill(self, fill):
+        if len(fill) < 1:
+            raise ValueError("fill must be at least one character")
+
+        # Fix the width
+        self._fmtdict[self._PROGRESS] =\
+            self._fmtdict[self._PROGRESS].replace(self.fill, fill)
+        self._width = len(self._fmtdict[self._PROGRESS])
+
         self._fill = fill
         self._update(0)
 
@@ -277,6 +304,9 @@ class ProgressBar(object):
 
     @min.setter
     def min(self, min):
+        if min >= self.max:
+            raise ValueError("min must less than max ({0})".format(self.max))
+
         self._min = min
         self._update(0)
 
@@ -286,6 +316,10 @@ class ProgressBar(object):
 
     @max.setter
     def max(self, max):
+        if max <= self.min:
+            raise ValueError("max must greater than min ({0})"
+                .format(self.min))
+
         self._max = max
         self._update(0)
 
