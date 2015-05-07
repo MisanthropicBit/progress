@@ -106,7 +106,7 @@ def test_progressbar():
 
     with pytest.raises(ValueError):
         testbar.width = 0
-    
+
     with pytest.raises(ValueError):
         testbar.width = -20
 

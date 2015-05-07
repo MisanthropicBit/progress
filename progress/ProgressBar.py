@@ -302,7 +302,7 @@ class ProgressBar(object):
     def max(self, max):
         if max <= self.min:
             raise ValueError("max must greater than min ({0})"
-                .format(self.min))
+                             .format(self.min))
 
         self._max = max
         self._update(0)
@@ -344,21 +344,3 @@ class ProgressBar(object):
     def __len__(self):
         """Return the current length of the progress in characters."""
         return len(str(self))
-
-
-if __name__ == '__main__':
-    pb = ProgressBar('{progress}')
-    pb.value = 50
-    print "'{}'".format(pb)
-    print pb.width
-    pb.head = '*'
-    pb.char = '*'
-    print "'{}'".format(pb)
-    print pb.width
-    pb.char = '.'
-    print "'{}'".format(pb)
-    print pb.width
-    pb.fill = '^'
-    print "'{}'".format(pb)
-    print pb.width
-    pb.char = ''
