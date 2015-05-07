@@ -96,6 +96,15 @@ def test_progressbar():
         testbar.fill = ''
 
     with pytest.raises(ValueError):
+        testbar.char = '**'
+
+    with pytest.raises(ValueError):
+        testbar.head = ')))'
+
+    with pytest.raises(ValueError):
+        testbar.fill = 'urso'
+
+    with pytest.raises(ValueError):
         testbar.width = 0
     
     with pytest.raises(ValueError):
@@ -112,12 +121,6 @@ def test_progressbar():
 
     with pytest.raises(ValueError):
         testbar.max = -1
-
-    # Test char, head and fill with lengths greater than one
-    testbar.value = 50
-    l, i = len(testbar), str(testbar).count('=')
-    testbar.char = '__'
-    assert len(testbar) == l + i
 
     # Attempt to update with a negative value
     with pytest.raises(ValueError):

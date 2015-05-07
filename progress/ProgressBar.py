@@ -110,9 +110,8 @@ class ProgressBar(object):
             lh = len(self._head)
 
             self._progchar = self._char * ((int(v * self._width) - lh) //
-                                           len(self._char))
-            self._progchar += self._head + (self._fill * (self._width -
-                                            (len(self._progchar) + lh)))
+                                           len(self._char)) + self._head
+            self._progchar += self._fill * (self._width - len(self._progchar))
         else:
             self._progchar = self._char * (self._width - 1) +\
                 (self._char if not self._head else self._head)
@@ -229,13 +228,8 @@ class ProgressBar(object):
 
     @char.setter
     def char(self, char):
-        if len(char) < 1:
-            raise ValueError("char must be at least one character")
-
-        # Fix the width
-        self._fmtdict[self._PROGRESS] =\
-            self._fmtdict[self._PROGRESS].replace(self.char, char)
-        self._width = len(self._fmtdict[self._PROGRESS])
+        if len(char) != 1:
+            raise ValueError("char must be one character")
 
         self._char = char
         self._update(0)
@@ -246,13 +240,8 @@ class ProgressBar(object):
 
     @head.setter
     def head(self, head):
-        if len(head) < 1:
-            raise ValueError("head must be at least one character")
-
-        # Fix the width
-        self._fmtdict[self._PROGRESS] =\
-            self._fmtdict[self._PROGRESS].replace(self.head, head)
-        self._width = len(self._fmtdict[self._PROGRESS])
+        if len(head) != 1:
+            raise ValueError("head must be one character")
 
         self._head = head
         self._update(0)
@@ -263,13 +252,8 @@ class ProgressBar(object):
 
     @fill.setter
     def fill(self, fill):
-        if len(fill) < 1:
-            raise ValueError("fill must be at least one character")
-
-        # Fix the width
-        self._fmtdict[self._PROGRESS] =\
-            self._fmtdict[self._PROGRESS].replace(self.fill, fill)
-        self._width = len(self._fmtdict[self._PROGRESS])
+        if len(fill) != 1:
+            raise ValueError("fill must be one character")
 
         self._fill = fill
         self._update(0)
@@ -360,3 +344,21 @@ class ProgressBar(object):
     def __len__(self):
         """Return the current length of the progress in characters."""
         return len(str(self))
+
+
+if __name__ == '__main__':
+    pb = ProgressBar('{progress}')
+    pb.value = 50
+    print "'{}'".format(pb)
+    print pb.width
+    pb.head = '*'
+    pb.char = '*'
+    print "'{}'".format(pb)
+    print pb.width
+    pb.char = '.'
+    print "'{}'".format(pb)
+    print pb.width
+    pb.fill = '^'
+    print "'{}'".format(pb)
+    print pb.width
+    pb.char = ''
