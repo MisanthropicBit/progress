@@ -6,7 +6,7 @@ import sys
 import string
 import itertools
 
-__date__ = '2015-05-05'  # YYYY-MM-DD
+__date__ = '2015-05-07'  # YYYY-MM-DD
 
 
 # Ensure compatibility with both Python 2.x/3.x next functions
@@ -71,7 +71,8 @@ class ProgressText(object):
         if self.autoreset:
             self._cycle = itertools.cycle(self._progress)
         else:
-            self._cycle = itertools.cycle(self._progress[:end]
+            # The join is necessary to support both strings and e.g. lists
+            self._cycle = itertools.cycle(''.join(self._progress[:end])
                                           for end in
                                           irange(0 if self._include_empty
                                                  else 1,

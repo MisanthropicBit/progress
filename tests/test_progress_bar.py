@@ -10,7 +10,7 @@ import pytest
 import progress
 import progress.eta
 
-__date__ = '2015-05-05'  # YYYY-MM-DD
+__date__ = '2015-05-07'  # YYYY-MM-DD
 
 
 fail_kwargs = [

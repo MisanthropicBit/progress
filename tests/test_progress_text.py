@@ -8,7 +8,7 @@ import sys
 import pytest
 import progress
 
-__date__ = '2015-05-05'  # YYYY-MM-DD
+__date__ = '2015-05-07'  # YYYY-MM-DD
 
 
 def test_progresstext():
