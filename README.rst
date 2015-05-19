@@ -1,7 +1,7 @@
 **progress v1.3.0**
 ===================
 
-.. image:: https://travis-ci.org/MisanthropicBit/progress.svg?branch=master
+.. image:: https://travis-ci.org/MisanthropicBit/progress.svg?branch=prop_exts
     :target: https://travis-ci.org/MisanthropicBit/progress
 
 .. image:: https://pypip.in/license/progress2/badge.png
