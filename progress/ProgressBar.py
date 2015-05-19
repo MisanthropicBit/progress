@@ -9,7 +9,7 @@ import string
 import progress
 import progress.eta
 
-__date__ = '2015-05-07'  # YYYY-MM-DD
+__date__ = '2015-05-19'  # YYYY-MM-DD
 
 
 class ProgressBar(object):
@@ -334,7 +334,9 @@ class ProgressBar(object):
 
     def __repr__(self):
         """Return the same string representation as __str()__."""
-        return "<{} at 0x{}>".format(self.__class__.__name__, id(self))
+        return "ProgressBar(format={!r}, value={!r})".format(self.format,
+                                                             self.value)
+        #return "<{} at 0x{}>".format(self.__class__.__name__, id(self))
 
     def __iadd__(self, value):
         """Update the progress bar with value."""

@@ -6,7 +6,7 @@ import sys
 import string
 import itertools
 
-__date__ = '2015-05-07'  # YYYY-MM-DD
+__date__ = '2015-05-19'  # YYYY-MM-DD
 
 
 # Ensure compatibility with both Python 2.x/3.x next functions
@@ -194,7 +194,8 @@ class ProgressText(object):
 
     def __repr__(self):
         """Return the same string representation as __str()__."""
-        return "<{} at 0x{}>".format(self.__class__.__name__, id(self))
+        return "ProgressText(value={!r}, progress={!r})".format(self.value,
+                                                                self.progress)
 
     def __len__(self):
         """Return the current length of the progress in characters."""
