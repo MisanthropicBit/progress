@@ -9,7 +9,7 @@
 
 Allows for easy creation of progress-bars and text.
 
-``progress`` has been tested with Python 2.6, 2.7, 3.2 and 3.3, and as of now requires at least Python 2.6
+``progress`` has been tested with Python 2.6, 2.7, 3.2, 3.3 and PyPy, and as of now requires at least Python 2.6
 
 Installation:
 -------------
@@ -20,7 +20,7 @@ You can install via `pip <https://pip.pypa.io/en/latest/>`_::
 
     pip install progress2
 
-Alternatively, if you downloaded the source files, just run the following command from the
+Alternatively, download the source files and run the following command from the
 download directory::
 
     python setup.py install

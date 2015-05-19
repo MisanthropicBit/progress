@@ -16,8 +16,8 @@ from progress.ProgressBar import ProgressBar
 from progress.ProgressText import ProgressText
 
 __author__ = 'Alexander Bock'
-__version__ = '1.2.0'
-__date__ = '2015-02-07'  # YYYY-MM-DD
+__version__ = '1.3.0'
+__date__ = '2015-05-19'  # YYYY-MM-DD
 
 
 _DEBUG_MODE = False
