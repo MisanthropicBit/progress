@@ -170,3 +170,7 @@ Version log
 - Fixed examples
 - Fixed a bug in ``show`` methods where Python 3.x would not function correctly
 - Minor code clean-up
+
+1.3.0
+-----
+- Merged branch 'prop_exts' wither main branch (fast-forward)
