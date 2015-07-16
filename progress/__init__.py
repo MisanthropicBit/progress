@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""progress v1.2.0.
+"""progress v1.3.0.
 
 A cross-platform Python 2/3 module for command line updatable progress
 trackers. The following classes are made available:
