@@ -9,7 +9,7 @@ import string
 import progress
 import progress.eta
 
-__date__ = '2015-05-19'  # YYYY-MM-DD
+__date__ = '2015-07-21'  # YYYY-MM-DD
 
 
 class ProgressBar(object):
@@ -107,14 +107,14 @@ class ProgressBar(object):
 
         # Set progress string
         if not self.done():
-            lh = len(self._head)
+            lh = len(self.head)
 
-            self._progchar = self._char * ((int(v * self._width) - lh) //
-                                           len(self._char)) + self._head
-            self._progchar += self._fill * (self._width - len(self._progchar))
+            self._progchar = self.char * ((int(v * self.width) - lh) //
+                                           len(self.char)) + self.head
+            self._progchar += self.fill * (self.width - len(self._progchar))
         else:
-            self._progchar = self._char * (self._width - 1) +\
-                (self._char if not self._head else self._head)
+            self._progchar = self.char * (self.width - 1) +\
+                (self.char if not self.head else self.head)
 
         self._fmtdict.update(zip([ProgressBar._PROGRESS,
                                   ProgressBar._PERCENTAGE,
@@ -268,7 +268,7 @@ class ProgressBar(object):
 
         if self._value < value:
             self.update(value - self._value)
-        elif self._value > value:
+        elif self._value >= value:
             self._value = value
             self.update(0)
 
