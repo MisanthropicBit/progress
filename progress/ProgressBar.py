@@ -110,7 +110,7 @@ class ProgressBar(object):
             lh = len(self.head)
 
             self._progchar = self.char * ((int(v * self.width) - lh) //
-                                           len(self.char)) + self.head
+                                          len(self.char)) + self.head
             self._progchar += self.fill * (self.width - len(self._progchar))
         else:
             self._progchar = self.char * (self.width - 1) +\
