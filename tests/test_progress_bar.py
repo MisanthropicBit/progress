@@ -10,7 +10,7 @@ import pytest
 import progress
 import progress.eta
 
-__date__ = '2015-07-21'  # YYYY-MM-DD
+__date__ = '2015-07-24'  # YYYY-MM-DD
 
 
 fail_kwargs = [
@@ -71,7 +71,6 @@ def approx_equals(a, b):
 
 
 def test_proper_init():
-    """Test proper initialisation."""
     testbar = progress.ProgressBar('[{progress}]')
 
     assert testbar.min == 0
@@ -84,22 +83,19 @@ def test_proper_init():
     assert testbar._etaobj is None
 
 
-def test_progressbar_fail():
-    """Test keyword arguments that should fail."""
+def test_progressbar_argument_fail():
     for kwargs in fail_kwargs:
         with pytest.raises(ValueError):
             progress.ProgressBar(**kwargs)
 
 
 def test_eta_fail():
-    """Test failing ETA objects."""
     for etaobj in (FailETA1(), FailETA2(), FailETA3()):
         with pytest.raises(ValueError):
             progress.ProgressBar(fmt=' ', etaobj=etaobj)
 
 
 def test_property_fails():
-    """Test values where properties should fail."""
     testbar = progress.ProgressBar('[{progress}]')
 
     with pytest.raises(ValueError):
@@ -139,8 +135,7 @@ def test_property_fails():
         testbar.max = -1
 
 
-def test_output_targets():
-    """Test switching targets."""
+def test_output_target_switch():
     testbar = progress.ProgressBar('[{progress}]')
 
     testbar.target = sys.stdout
@@ -150,8 +145,7 @@ def test_output_targets():
         testbar.target = sys.stdin
 
 
-def test_updates():
-    """Test updating the progress bar."""
+def test_progress_updates():
     testbar = progress.ProgressBar('[{progress}]')
 
     # Attempt to update with a negative value
@@ -191,7 +185,6 @@ def test_updates():
 
 
 def test_autoupdate():
-    """Test the autoupdate feature."""
     testbar = progress.ProgressBar('[{progress}]')
 
     testbar.autoupdate(22)
@@ -202,7 +195,6 @@ def test_autoupdate():
 
 
 def test_reset():
-    """Test proper resetting of the progress bar."""
     testbar = progress.ProgressBar('[{progress}]')
 
     testbar.value = 50
@@ -215,7 +207,6 @@ def test_reset():
 
 
 def test_percent_property():
-    """Test 'percent' property."""
     testbar = progress.ProgressBar('[{progress}]')
 
     testbar.percent = 0.73408248
@@ -226,7 +217,6 @@ def test_percent_property():
 
 
 def test_width_property():
-    """Test 'width' property."""
     testbar = progress.ProgressBar('[{progress}]')
 
     testbar.value = 75
@@ -240,7 +230,6 @@ def test_width_property():
 
 
 def test_visual_changes():
-    """Test visual feature updates through properties."""
     testbar = progress.ProgressBar('[{progress}]')
 
     testbar.value = 0
@@ -261,7 +250,6 @@ def test_visual_changes():
 
 
 def test_formatting():
-    """Test the 'format' property."""
     testbar = progress.ProgressBar('[{progress}]')
 
     assert type(testbar.format) is str
@@ -282,7 +270,6 @@ def test_formatting():
 
 
 def test_min_max_value_properties():
-    """Test the 'min', 'max' and 'value' properties."""
     testbar = progress.ProgressBar('[{progress}]')
 
     # Test setting the 'min' property
@@ -300,7 +287,6 @@ def test_min_max_value_properties():
 
 
 def test_keyword_updates():
-    """Test keyword arguments in updates."""
     testbar = progress.ProgressBar('[{progress}]')
 
     l = list(range(3))
@@ -309,8 +295,7 @@ def test_keyword_updates():
     testbar.autoupdate(10, *l, **d)
 
 
-def test_reserved_keys():
-    """Test errors on modification of reserved keys."""
+def test_reserved_keys_modification_fail():
     testbar = progress.ProgressBar('[{progress}]')
     d = dict()
 
