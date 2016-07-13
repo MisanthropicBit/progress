@@ -2,10 +2,8 @@
 ===================
 
 .. image:: https://travis-ci.org/MisanthropicBit/progress.svg?branch=prop_exts
-    :target: https://travis-ci.org/MisanthropicBit/progress
-
-.. image:: https://pypip.in/license/progress2/badge.png
-    :target: https://pypi.python.org/pypi/progress2/
+.. image:: https://img.shields.io/pypi/v/progress2.svg?maxAge=2592000
+.. image:: https://img.shields.io/pypi/l/progress2.svg?maxAge=2592000
 
 Allows for easy creation of progress-bars and text.
 
