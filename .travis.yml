@@ -14,7 +14,7 @@ install:
 
 before_script:
     - flake8 --ignore=F401 .
-    - pep257 --ignore=D102,D103,D400 .
+    - pep257 --ignore=D102,D103,D211,D400 .
 
 script: py.test .
 
