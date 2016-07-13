@@ -1,7 +1,7 @@
 **progress v1.3.0**
 ===================
 
-.. image:: https://travis-ci.org/MisanthropicBit/progress.svg?branch=prop_exts
+.. image:: https://travis-ci.org/MisanthropicBit/progress.svg?branch=master
 .. image:: https://img.shields.io/pypi/v/progress2.svg?maxAge=2592000
 .. image:: https://img.shields.io/pypi/l/progress2.svg?maxAge=2592000
 
