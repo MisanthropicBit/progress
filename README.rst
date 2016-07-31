@@ -4,6 +4,7 @@
 .. image:: https://travis-ci.org/MisanthropicBit/progress.svg?branch=master
 .. image:: https://img.shields.io/pypi/v/progress2.svg?maxAge=2592000
 .. image:: https://img.shields.io/pypi/l/progress2.svg?maxAge=2592000
+.. image:: https://coveralls.io/repos/github/MisanthropicBit/progress/badge.svg?branch=master :target: https://coveralls.io/github/MisanthropicBit/progress?branch=master
 
 Allows for easy creation of progress-bars and text.
 
