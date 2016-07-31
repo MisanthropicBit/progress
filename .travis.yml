@@ -21,7 +21,6 @@ before_script:
     - pep257 --ignore=D102,D103,D211,D400 .
 
 script:
-    - py.test .
     - coverage run --source=progress -m py.test
 
 after_success:
