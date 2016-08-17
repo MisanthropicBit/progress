@@ -71,16 +71,17 @@ def approx_equals(a, b):
 
 
 def test_proper_init():
-    testbar = progress.ProgressBar('[{progress}]')
+    simple_eta = progress.eta.SimpleETA()
+    testbar = progress.ProgressBar('[{progress} {minutes}]', etaobj=simple_eta)
 
     assert testbar.min == 0
     assert testbar.max == 100
     assert testbar.char == '='
     assert testbar.head == '>'
     assert testbar.width == 20
-    assert len(testbar) == len('[' + (testbar.fill * testbar.width) + ']')
-    assert not testbar._has_eta
-    assert testbar._etaobj is None
+    assert len(testbar) == len('[' + (testbar.fill * testbar.width) + ' 0]')
+    assert testbar._has_eta
+    assert testbar._etaobj is simple_eta
 
 
 def test_progressbar_argument_fail():
@@ -93,6 +94,9 @@ def test_eta_fail():
     for etaobj in (FailETA1(), FailETA2(), FailETA3()):
         with pytest.raises(ValueError):
             progress.ProgressBar(fmt=' ', etaobj=etaobj)
+
+    with pytest.raises(TypeError):
+        progress.ProgressBar(fmt='{minutes}', etaobj=9)
 
 
 def test_property_fails():

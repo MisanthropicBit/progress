@@ -39,6 +39,9 @@ def test_base_eta():
         base_eta.get()
 
     with pytest.raises(NotImplementedError):
+        base_eta.reset()
+
+    with pytest.raises(NotImplementedError):
         base_eta.eta
 
     assert base_eta.format_eta(1000) == [0, 16, 40]
@@ -53,9 +56,21 @@ def test_simple_eta():
 
 
 def test_ema_eta():
+    emaeta = progress.eta.EMAETA()
     expected = [323.33333333333326, 159.5744680851063606, 98.2800982800982723,
                 55.458436313219600, 24.5715338780023309]
-    run_eta_test(times, values, expected, progress.eta.EMAETA(), maxvalue)
+    run_eta_test(times, values, expected, emaeta, maxvalue)
+
+    assert emaeta.format_eta(1000) == [0, 16, 40]
+    assert emaeta.format_eta(9512) == [2, 38, 32]
+    assert emaeta.format_eta(2) == [0, 0, 2]
+    assert emaeta.format_eta(-60) == [-1, 59, 0]
+
+    with pytest.raises(ValueError):
+        emaeta.decay = -1.0
+
+    with pytest.raises(ValueError):
+        emaeta.decay = 1.2
 
 
 def test_sma_eta():
