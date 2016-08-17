@@ -20,7 +20,7 @@ install:
     - if [ "$TRAVIS_PYTHON_VERSION" != "2.6" ]; then travis_retry pip install flake8; fi
 
 before_script:
-    -- if [ "$TRAVIS_PYTHON_VERSION" != "2.6" ]; then travis_retry flake8 --ignore=F401 .; fi
+    - if [ "$TRAVIS_PYTHON_VERSION" != "2.6" ]; then travis_retry flake8 --ignore=F401 .; fi
     - pep257 --ignore=D102,D103,D211,D400 .
 
 script:
