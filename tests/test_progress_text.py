@@ -27,6 +27,8 @@ def test_value_property():
     testtext.autoupdate()
     assert testtext.value == '.'
 
+    assert repr(testtext) == "ProgressText(value='.', progress='...')"
+
 
 def test_initialisation_errors():
     with pytest.raises(ValueError):

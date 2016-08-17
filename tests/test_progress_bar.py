@@ -82,6 +82,8 @@ def test_proper_init():
     assert len(testbar) == len('[' + (testbar.fill * testbar.width) + ' 0]')
     assert testbar._has_eta
     assert testbar._etaobj is simple_eta
+    assert repr(testbar) == "ProgressBar(format='[{progress} {minutes}]', "\
+                            "value=0)"
 
 
 def test_progressbar_argument_fail():
