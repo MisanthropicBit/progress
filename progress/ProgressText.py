@@ -194,8 +194,8 @@ class ProgressText(object):
 
     def __repr__(self):
         """Return the same string representation as __str()__."""
-        return "ProgressText(value={!r}, progress={!r})".format(self.value,
-                                                                self.progress)
+        return "ProgressText(value={0!r}, progress={1!r})"\
+            .format(self.value, self.progress)
 
     def __len__(self):
         """Return the current length of the progress in characters."""

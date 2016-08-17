@@ -334,8 +334,8 @@ class ProgressBar(object):
 
     def __repr__(self):
         """Return the same string representation as __str()__."""
-        return "ProgressBar(format={!r}, value={!r})".format(self.format,
-                                                             self.value)
+        return "ProgressBar(format={0!r}, value={1!r})".format(self.format,
+                                                               self.value)
 
     def __iadd__(self, value):
         """Update the progress bar with value."""
