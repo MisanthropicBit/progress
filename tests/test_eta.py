@@ -4,6 +4,7 @@
 """py.test file for testing ETA classes."""
 
 import progress.eta
+import pytest
 
 __date__ = '2015-07-24'  # YYYY-MM-DD
 
@@ -26,6 +27,24 @@ def run_eta_test(times, values, expected, eta, maxvalue):
 
         if eta.eta is not None:
             assert approx_equals(e, eta.eta)
+
+
+def test_base_eta():
+    base_eta = progress.eta.BaseETA()
+
+    with pytest.raises(NotImplementedError):
+        base_eta.update(0, 0, 0)
+
+    with pytest.raises(NotImplementedError):
+        base_eta.get()
+
+    with pytest.raises(NotImplementedError):
+        base_eta.eta
+
+    assert base_eta.format_eta(1000) == [0, 16, 40]
+    assert base_eta.format_eta(9512) == [2, 38, 32]
+    assert base_eta.format_eta(2) == [0, 0, 2]
+    assert base_eta.format_eta(-60) == [-1, 59, 0]
 
 
 def test_simple_eta():
