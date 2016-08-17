@@ -16,8 +16,11 @@ install:
     - if [ "$TRAVIS_PYTHON_VERSION" != "3.2" ]; then travis_retry pip install coverage; fi
     #- pip install -e .
 
+    # flake8 no longer supports 2.6, this is a temporary fix
+    - if [ "$TRAVIS_PYTHON_VERSION" != "2.6" ]; then travis_retry pip install flake8; fi
+
 before_script:
-    - flake8 --ignore=F401 .
+    -- if [ "$TRAVIS_PYTHON_VERSION" != "2.6" ]; then travis_retry flake8 --ignore=F401 .; fi
     - pep257 --ignore=D102,D103,D211,D400 .
 
 script:
