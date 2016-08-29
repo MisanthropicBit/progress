@@ -5,3 +5,6 @@ backup/
 color/
 MANIFEST
 dist/
+.python-version
+.tox/
+.cache/
