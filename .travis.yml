@@ -5,6 +5,7 @@ python:
     - "2.7"
     - "3.2"
     - "3.3"
+    - "3.4"
     - "pypy"
 
 install:
@@ -24,12 +25,13 @@ before_script:
     - pep257 --ignore=D102,D103,D211,D400 .
 
 script:
-    - virtualenv --version
-    - coverage --version
-    - coverage run --source=progress -m py.test
+    - if [ "$TRAVIS_PYTHON_VERSION" != "3.2" ]; then virtualenv --version; fi
+    - if [ "$TRAVIS_PYTHON_VERSION" != "3.2" ]; then coverage --version; fi
+    - if [ "$TRAVIS_PYTHON_VERSION" != "3.2" ]; then coverage run --source=progress -m py.test; fi
+    - if [ "$TRAVIS_PYTHON_VERSION" == "3.2" ]; then py.test tests/; fi
 
 after_success:
-    - coveralls
+    - if [ "$TRAVIS_PYTHON_VERSION" != "3.2" ]; then coveralls; fi
 
 branches:
     only:
