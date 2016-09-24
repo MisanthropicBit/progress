@@ -8,7 +8,6 @@ python:
     - "pypy"
 
 install:
-    # Use mirrors to not avoid burdening PyPI
     - pip install -r requirements.txt
 
     # Coveralls 4.0 doesn't support Python 3.2
