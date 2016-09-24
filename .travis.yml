@@ -28,7 +28,6 @@ script:
     - if [ "$TRAVIS_PYTHON_VERSION" != "3.2" ]; then virtualenv --version; fi
     - if [ "$TRAVIS_PYTHON_VERSION" != "3.2" ]; then coverage --version; fi
     - if [ "$TRAVIS_PYTHON_VERSION" != "3.2" ]; then coverage run --source=progress -m py.test; fi
-    - if [ "$TRAVIS_PYTHON_VERSION" == "3.2" ]; then py.test tests/; fi
 
 after_success:
     - if [ "$TRAVIS_PYTHON_VERSION" != "3.2" ]; then coveralls; fi
