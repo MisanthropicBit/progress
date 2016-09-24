@@ -9,7 +9,7 @@
 
 Allows for easy creation of progress-bars and text.
 
-``progress`` has been tested with Python 2.6, 2.7, 3.2, 3.3 and PyPy, and as of now requires at least Python 2.6
+``progress`` has been tested with Python 2.6, 2.7, 3.3, 3.4 and PyPy, and as of now requires at least Python 2.6
 
 Installation:
 -------------
