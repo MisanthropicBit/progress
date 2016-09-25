@@ -15,8 +15,6 @@ import random
 import threading
 import progress
 
-__date__ = '2015-02-07'  # YYYY-MM-DD
-
 
 class WorkerThread(threading.Thread):
 

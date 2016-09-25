@@ -10,8 +10,6 @@ import random
 import progress
 import progress.eta
 
-__date__ = '2015-02-07'  # YYYY-MM-DD
-
 
 def gen_random_update(mnsleep, mxsleep, mnvalue, mxvalue):
     """Generate a tuple of a random sleep period and update value."""

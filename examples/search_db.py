@@ -6,8 +6,6 @@
 import time
 import progress
 
-__date__ = '2015-02-07'  # YYYY-MM-DD
-
 
 def update_progtxt(progress_text):
     while True:

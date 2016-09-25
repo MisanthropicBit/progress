@@ -6,15 +6,10 @@
 from __future__ import print_function
 
 
-import sys
 import time
 import random
 import threading
 import progress
-
-sys.path.append('..')
-
-__date__ = '2015-02-07'  # YYYY-MM-DD
 
 
 def updater(event, progresstext):

@@ -10,8 +10,6 @@ import random
 import progress
 import progress.eta
 
-__date__ = '2015-02-07'  # YYYY-MM-DD
-
 
 if __name__ == '__main__':
     pbar = progress.ProgressBar(fmt='[{progress}] {percentage:.2f}% '
