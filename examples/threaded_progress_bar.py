@@ -6,9 +6,11 @@
 from __future__ import print_function
 
 try:
-    import Queue as queue  # Python 2
+    # Python 2
+    import Queue as queue
 except ImportError:
-    import queue  # Python 3
+    # Python 3
+    import queue
 
 import time
 import random
