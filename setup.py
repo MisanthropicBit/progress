@@ -24,6 +24,7 @@ distutils.core.setup(
     keywords='progress, progressbar, progresstext',
     url='https://github.com/MisanthropicBit/progress',
     packages=['progress', 'progress.eta'],
+    package_data={'progress': ['examples/*.py', 'tests/*.py']},
     long_description=open('README.rst').read(),
     classifiers=[
         'Development Status :: 5 - Production/Stable',
