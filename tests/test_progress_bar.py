@@ -72,7 +72,7 @@ def approx_equals(a, b):
 
 def test_proper_init():
     simple_eta = progress.eta.SimpleETA()
-    testbar = progress.ProgressBar('[{progress} {minutes}]', etaobj=simple_eta)
+    testbar = progress.ProgressBar('[{progress}] {minutes}', etaobj=simple_eta)
 
     assert testbar.min == 0
     assert testbar.max == 100
@@ -82,8 +82,15 @@ def test_proper_init():
     assert len(testbar) == len('[' + (testbar.fill * testbar.width) + ' 0]')
     assert testbar._has_eta
     assert testbar._etaobj is simple_eta
-    assert repr(testbar) == "ProgressBar(format='[{progress} {minutes}]', "\
+    assert repr(testbar) == "ProgressBar(format='[{progress}] {minutes}', "\
                             "value=0)"
+
+
+def test_default_eta():
+    testbar = progress.ProgressBar('[{progress}] {minutes}')
+
+    assert testbar.eta == (0, 0, 0)
+    assert isinstance(testbar.eta_object, progress.eta.SimpleETA)
 
 
 def test_progressbar_argument_fail():
@@ -201,15 +208,18 @@ def test_autoupdate():
 
 
 def test_reset():
-    testbar = progress.ProgressBar('[{progress}]')
+    testbar = progress.ProgressBar('[{progress}] {minutes}:{seconds}',
+                                   etaobj=progress.eta.SimpleETA())
 
     testbar.value = 50
+    testbar.percent == 50.0
     testbar.reset()
     assert testbar.value == 0
     assert testbar.percent == 0.0
     assert not testbar.done()
     assert str(testbar) == '[' + testbar.head +\
-        (testbar.fill * (testbar.width - 1)) + ']'
+        (testbar.fill * (testbar.width - 1)) + '] 0:0'
+    assert testbar.eta_object.eta == 0
 
 
 def test_percent_property():

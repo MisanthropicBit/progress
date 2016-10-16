@@ -54,24 +54,63 @@ def test_simple_eta():
 
 
 def test_ema_eta():
-    emaeta = progress.eta.EMAETA()
+    ema = progress.eta.EMAETA()
     expected = [323.33333333333326, 159.5744680851063606, 98.2800982800982723,
                 55.458436313219600, 24.5715338780023309]
-    run_eta_test(times, values, expected, emaeta, maxvalue)
 
-    assert emaeta.format_eta(1000) == [0, 16, 40]
-    assert emaeta.format_eta(9512) == [2, 38, 32]
-    assert emaeta.format_eta(2) == [0, 0, 2]
-    assert emaeta.format_eta(-60) == [-1, 59, 0]
+    assert ema.get() is None
+    run_eta_test(times, values, expected, ema, maxvalue)
+
+    assert ema.format_eta(1000) == [0, 16, 40]
+    assert ema.format_eta(9512) == [2, 38, 32]
+    assert ema.format_eta(2) == [0, 0, 2]
+    assert ema.format_eta(-60) == [-1, 59, 0]
 
     with pytest.raises(ValueError):
-        emaeta.decay = -1.0
+        ema.decay = -1.0
 
     with pytest.raises(ValueError):
-        emaeta.decay = 1.2
+        ema.decay = 1.2
+
+    assert ema.get() == [0, 0, 24]
 
 
 def test_sma_eta():
+    sma = progress.eta.SMAETA(3)
     expected = [32.333333333333336, 30., 26.181818181818183,
                 20.674157303370787, 8.994082840236686]
-    run_eta_test(times, values, expected, progress.eta.SMAETA(3), maxvalue)
+
+    assert sma.get() is None
+    run_eta_test(times, values, expected, sma, maxvalue)
+    assert sma.get() == [0, 0, 8]
+
+
+def test_sma_eta_fail():
+    sma = progress.eta.SMAETA(3)
+
+    with pytest.raises(ValueError):
+        sma.window = 0
+
+
+def test_wrong_eta_return_type():
+    class FailETA1(progress.eta.BaseETA):
+        def update(self, time, value, maxval):
+            pass
+
+        def get(self):
+            return ""
+
+    class FailETA2(progress.eta.BaseETA):
+        def update(self, time, value, maxval):
+            pass
+
+        def get(self):
+            return range(4)
+
+    with pytest.raises(ValueError):
+        testbar = progress.ProgressBar("{hours}", etaobj=FailETA1())
+        testbar.update(10)
+
+    with pytest.raises(ValueError):
+        testbar = progress.ProgressBar("{hours}", etaobj=FailETA2())
+        testbar.update(10)
