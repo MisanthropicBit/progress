@@ -22,5 +22,5 @@ __date__ = '2015-05-19'  # YYYY-MM-DD
 
 _DEBUG_MODE = False
 
-if _DEBUG_MODE:
+if _DEBUG_MODE:  # pragma: no cover
     print("Python " + ".".join(map(str, sys.version_info[:3])))
