@@ -7,7 +7,6 @@ import sys
 import types
 import functools
 
-__date__ = '2015-02-07'  # YYYY-MM-DD
 
 
 if sys.version_info[0] < 3:

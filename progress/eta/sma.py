@@ -4,8 +4,6 @@ import collections
 import progress.decorators
 from progress.eta.base import BaseETA
 
-__date__ = '2015-04-15'  # YYYY-MM-DD
-
 
 @progress.decorators.inherit_docstrings
 class SMAETA(BaseETA):

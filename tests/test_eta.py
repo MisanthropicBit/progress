@@ -6,8 +6,6 @@
 import progress.eta
 import pytest
 
-__date__ = '2015-07-24'  # YYYY-MM-DD
-
 # Shared time, values and maximum value for testing all ETA classes
 times = [1, 12, 20, 25, 26]
 values = [3, 25, 40, 54, 62]

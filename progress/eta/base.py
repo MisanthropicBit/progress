@@ -1,7 +1,5 @@
 """Base class for all derived ETA objects."""
 
-__date__ = '2015-02-26'  # YYYY-MM-DD
-
 
 class BaseETA(object):
 

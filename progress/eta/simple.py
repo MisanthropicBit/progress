@@ -3,8 +3,6 @@
 import progress.decorators
 from progress.eta.base import BaseETA
 
-__date__ = '2015-04-13'  # YYYY-MM-DD
-
 
 @progress.decorators.inherit_docstrings
 class SimpleETA(BaseETA):
