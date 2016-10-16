@@ -2,9 +2,12 @@
 *.tasks
 __pycache__
 backup/
+build/
 color/
 MANIFEST
 dist/
+htmlcov/
 .python-version
 .tox/
 .cache/
+.coverage
