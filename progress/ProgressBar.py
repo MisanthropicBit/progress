@@ -131,11 +131,13 @@ class ProgressBar(object):
             if res is not None:
                 if type(res) not in (tuple, list):
                     raise ValueError("Expected a tuple or list of three "
-                                     "elements from ETA object")
+                                     "elements from ETA object, not "
+                                     "'{0}'".format(type(res).__name__))
 
                 if len(res) != 3:
-                    raise ValueError("Unexpected type '{0}' returned from ETA "
-                                     "object".format(type(res).__name__))
+                    raise ValueError("Expected exactly three elements from "
+                                     "ETA object, not '{0}'"
+                                     .format(type(res).__name__))
 
                 self._fmtdict.update(zip(ProgressBar._VALID_ETA, res))
 
