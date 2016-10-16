@@ -7,6 +7,7 @@ import sys
 import types
 import functools
 
+import collections
 
 
 if sys.version_info[0] < 3:
@@ -34,13 +35,13 @@ def inherit_docstrings(cls):
             raise RuntimeError("Type is not a class")
 
         for name, value in iteritems(vars(cls)):
-            if isinstance(getattr(cls, name), types.MethodType):
+            if isinstance(getattr(cls, name), collections.Callable):
                 if not getattr(value, '__doc__', None):
                     for base in cls.__bases__:
                         basemethod = getattr(base, name, None)
 
-                        if basemethod and getattr(base, '__doc__', None):
-                            value.__doc__ = basemethod.__doc__
+                        if basemethod and getattr(basemethod, '__doc__', None):
+                            setattr(value, '__doc__', basemethod.__doc__)
 
         return cls
 
