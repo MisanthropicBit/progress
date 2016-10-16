@@ -328,6 +328,17 @@ class ProgressBar(object):
 
         self._target = t
 
+    @property
+    def eta(self):
+        """Return a tuple of the remaining hours, minutes and seconds."""
+        return tuple(self.eta_object.get()) if self.eta_object\
+            else (None, None, None)
+
+    @property
+    def eta_object(self):
+        """Return the eta object used to calculate ETA."""
+        return self._etaobj
+
     def __str__(self):
         """Return the string representation as used by show()."""
         return self._fmt.format(**self._fmtdict)
