@@ -1,4 +1,4 @@
-#!/usr/bin/env/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """Demonstrates a complex ProgressBar."""
@@ -20,15 +20,15 @@ def gen_random_update(mnsleep, mxsleep, mnvalue, mxvalue):
 
 if __name__ == '__main__':
     bar = progress.ProgressBar(fmt='[{progress}] {nominator}KB, eta: '
-                                   '{minutes}m:{seconds}s',
+                                   '{minutes}:{seconds}',
                                width=35, char='#', head='',
                                etaobj=progress.eta.EMAETA())
 
     while not bar.done():
         bar.show()
-        sleep, update = next(gen_random_update(1.0, 4.0, 5, 30))
+        sleep, value = next(gen_random_update(0.05, 0.3, 1, 2))
         time.sleep(sleep)
-        bar += update
+        bar += value
 
     bar.show()
     print("\nDone...")
