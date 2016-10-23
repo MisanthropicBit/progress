@@ -98,7 +98,7 @@ class ProgressBar(object):
         if value > 0:
             self._value += value
             # Clamp to [mn, mx]
-            self.value = max(self.min, min(self.value, self.max))
+            self._value = max(self.min, min(self.value, self.max))
 
         v = float(self.value - self.min) / float(self.max - self.min)
         self._percentage = v
@@ -125,7 +125,7 @@ class ProgressBar(object):
         """Update the progress bar with value."""
         # Update and format ETA if needed
         if self._has_eta:
-            self._etaobj.update(self._timer(), self._value, self.max)
+            self._etaobj.update(self._timer(), value, self.max)
             res = self._etaobj.get()
 
             if res is not None:
