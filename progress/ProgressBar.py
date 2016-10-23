@@ -125,7 +125,7 @@ class ProgressBar(object):
         """Update the progress bar with value."""
         # Update and format ETA if needed
         if self._has_eta:
-            self._etaobj.update(self._timer(), value, self.max)
+            self._etaobj.update(self._timer(), self.value + value, self.max)
             res = self._etaobj.get()
 
             if res is not None:
