@@ -114,6 +114,10 @@ class ProgressBar(object):
             self._progchar = self.char * (self.width - 1) +\
                 (self.char if not self.head else self.head)
 
+            for e in ProgressBar._VALID_ETA:
+                if e in self._fmtdict:
+                    self._fmtdict[e] = 0.
+
         self._fmtdict.update(zip([ProgressBar._PROGRESS,
                                   ProgressBar._PERCENTAGE,
                                   ProgressBar._NOMINATOR],
