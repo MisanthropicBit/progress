@@ -20,9 +20,7 @@ class SMAETA(BaseETA):
         self.window = window
         self.reset()
 
-    def update(self, time, value, maxvalue):
-        self._maxvalue = maxvalue
-
+    def update(self, time, value, max_value):
         if self._history:
             dt, dv = (float(abs(i - j))
                       for i, j in zip(self._history, [time, value]))
@@ -46,7 +44,7 @@ class SMAETA(BaseETA):
 
         # Update ETA and history
         if self._sma > 0.:
-            self._eta = (self._maxvalue - value) / self._sma
+            self._eta = (max_value - value) / self._sma
 
         self._history = [time, value]
 
@@ -56,7 +54,6 @@ class SMAETA(BaseETA):
     def reset(self):
         self._eta = None
         self._sma = 0.
-        self._maxvalue = 0.
         self._history = []
         self._samples = collections.deque(maxlen=self.window)
 

@@ -9,7 +9,7 @@ class BaseETA(object):
         """Empty initializer."""
         pass
 
-    def update(self, time, value, maxval):
+    def update(self, time, value, max_value):
         """Update the ETA.
 
         Called by ProgressBar with the current time, current

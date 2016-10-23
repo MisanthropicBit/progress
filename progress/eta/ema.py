@@ -19,9 +19,7 @@ class EMAETA(BaseETA):
         self.decay = decay
         self.reset()
 
-    def update(self, time, value, maxvalue):
-        self._maxvalue = maxvalue
-
+    def update(self, time, value, max_value):
         if self._history:
             # Compute the differences between time and values
             dt, dv = (float(abs(i - j))
@@ -30,14 +28,12 @@ class EMAETA(BaseETA):
             dt, dv = float(time), float(value)
 
         if dt > 0. and dv > 0.:
-            # Update the exponentially moving average
             self._ema = self.decay * (dv / dt) + (1. - self.decay) * self._ema
         else:
             self._ema = 0.
 
-        # Update ETA and history
         if self._ema > 0.:
-            self._eta = (self._maxvalue - value) / self._ema
+            self._eta = (max_value - value) / self._ema
 
         self._history = [time, value]
 
@@ -47,7 +43,6 @@ class EMAETA(BaseETA):
     def reset(self):
         self._eta = None
         self._ema = 0.
-        self._maxvalue = 0.
         self._history = []
 
     @property
